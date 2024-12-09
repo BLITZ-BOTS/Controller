@@ -11,7 +11,6 @@ interface DeleteBotDialogProps {
 export default function DeleteConfirm({
   isOpen,
   botName,
-  path,
   onClose,
   onConfirm,
 }: DeleteBotDialogProps) {

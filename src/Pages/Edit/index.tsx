@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ChevronLeft, Cog, Lock, Trash2, Eye, EyeOff } from "lucide-react"; // Import Eye icons
+import { ChevronLeft, Cog, Eye, EyeOff, Lock, Trash2 } from "lucide-react"; // Import Eye icons
 import { invoke } from "@tauri-apps/api/core";
 import { appDataDir } from "@tauri-apps/api/path";
 import Skeleton from "react-loading-skeleton";
@@ -29,14 +29,18 @@ export default function EditPage() {
   const navigate = useNavigate();
   const { name } = useParams<{ name: string }>();
   const [botData, setBotData] = useState<BotData | null>(null);
-  const [error, setError] = useState<ErrorState | null>(null);
-  const [discordBotInfo, setDiscordBotInfo] = useState<DiscordBotInfo | null>(null);
+  const [_error, setError] = useState<ErrorState | null>(null);
+  const [discordBotInfo, setDiscordBotInfo] = useState<DiscordBotInfo | null>(
+    null,
+  );
   const [appDataDirectory, setAppDataDirectory] = useState<string>("");
   const [newPluginPath, setNewPluginPath] = useState<string>("");
-  const [notification, setNotification] = useState<{
-    message: string;
-    type: "loading" | "success" | "error";
-  } | null>(null);
+  const [notification, setNotification] = useState<
+    {
+      message: string;
+      type: "loading" | "success" | "error";
+    } | null
+  >(null);
 
   const [isTokenVisible, setIsTokenVisible] = useState(false); // State to toggle token visibility
 
@@ -87,7 +91,9 @@ export default function EditPage() {
         });
 
         if (!response.ok) {
-          throw new Error(`Error fetching Discord bot info: ${response.statusText}`);
+          throw new Error(
+            `Error fetching Discord bot info: ${response.statusText}`,
+          );
         }
 
         const data: DiscordBotInfo = await response.json();
@@ -229,7 +235,9 @@ export default function EditPage() {
             onClick={toggleTokenVisibility}
             className="text-white bg-transparent border-none flex items-center justify-center"
           >
-            {isTokenVisible ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            {isTokenVisible
+              ? <EyeOff className="w-5 h-5" />
+              : <Eye className="w-5 h-5" />}
           </button>
         </div>
       </motion.div>
@@ -289,9 +297,13 @@ export default function EditPage() {
                     >
                       <Trash2 className="h-5 w-5" />
                     </button>
-                    <button 
-                    onClick={() => window.location.href = `/${name}/${plugin_path.split("/").pop()?.split("\\").pop()}`}
-                    className="items-center py-2 px-4 rounded-md bg-[#ffffff]/10 hover:bg-[#ffffff]/20 transition duration-200 h-[50px]">
+                    <button
+                      onClick={() =>
+                        window.location.href = `/${name}/${
+                          plugin_path.split("/").pop()?.split("\\").pop()
+                        }`}
+                      className="items-center py-2 px-4 rounded-md bg-[#ffffff]/10 hover:bg-[#ffffff]/20 transition duration-200 h-[50px]"
+                    >
                       <Cog />
                     </button>
                   </div>

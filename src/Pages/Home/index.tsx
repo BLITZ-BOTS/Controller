@@ -15,9 +15,15 @@ export default function Home() {
   const [selectedBot, setSelectedBot] = useState<any>(null);
   const [bots, setBots] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [notification, setNotification] = useState<{ message: string; type: "loading" | "success" | "error" } | null>(null);
+  const [notification, setNotification] = useState<
+    { message: string; type: "loading" | "success" | "error" } | null
+  >(null);
 
-  const showNotification = (message: string, type: "loading" | "success" | "error", duration = 3000) => {
+  const showNotification = (
+    message: string,
+    type: "loading" | "success" | "error",
+    duration = 3000,
+  ) => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), duration);
   };
@@ -46,7 +52,9 @@ export default function Home() {
 
   const handleBotCreated = () => {
     showNotification("Creating bot...", "loading");
-    fetchBots().then(() => showNotification("Bot created successfully!", "success"));
+    fetchBots().then(() =>
+      showNotification("Bot created successfully!", "success")
+    );
   };
 
   const handleDeleteButtonClick = (bot: any) => {
@@ -95,7 +103,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black text-white pt-20">
-      {notification && <Notification message={notification.message} type={notification.type} />}
+      {notification && (
+        <Notification message={notification.message} type={notification.type} />
+      )}
 
       <CreateBot
         isOpen={isCreateBotOpen}

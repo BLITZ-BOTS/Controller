@@ -27,9 +27,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/plugins" element={<Plugins />} />
-            <Route path="/plugin/:name" element={<PluginDetails/>}/>
+            <Route path="/plugin/:name" element={<PluginDetails />} />
             <Route path="/edit/:name" element={<EditPage />} />
-            <Route path="/:bot/:plugin" element={<Config/>}/>
+            <Route path="/:bot/:plugin" element={<Config />} />
           </Routes>
         </Router>
       </SkeletonTheme>

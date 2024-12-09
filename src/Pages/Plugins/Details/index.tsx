@@ -8,7 +8,6 @@ import { Check, Copy } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-
 interface PluginDetailsData {
   name: string;
   version: string;
@@ -108,11 +107,11 @@ export default function PluginDetails() {
   }
 
   if (error) {
-    return window.location.href = "/"
+    return window.location.href = "/";
   }
 
   if (!plugin) {
-    return window.location.href = "/"
+    return window.location.href = "/";
   }
 
   const versionsArray = plugin?.versions.map((v) => v) || [];
