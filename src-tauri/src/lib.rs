@@ -195,7 +195,7 @@ fn install_plugin(path: String, plugin_name: String) -> Result<(), String> {
         // Step 6: Identify the top-level folder in the ZIP and extract the files correctly
         let mut top_level_folder: Option<String> = None;
         for i in 0..archive.len() {
-            let mut file = archive
+            let file = archive
                 .by_index(i)
                 .map_err(|e| format!("Failed to read file from ZIP: {}", e))?;
 
