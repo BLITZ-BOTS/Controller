@@ -1,12 +1,16 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ChevronLeft, Cog, Eye, EyeOff, Lock, Trash2 } from "lucide-react"; // Import Eye icons
+import { ChevronLeft, Cog, Eye, EyeOff, Lock, Trash2, Check, Copy } from "lucide-react";
+import { FaFolderOpen } from "react-icons/fa";
 import { invoke } from "@tauri-apps/api/core";
 import { appDataDir } from "@tauri-apps/api/path";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Notification from "../../Components/Notification";
+import { open } from "@tauri-apps/plugin-shell";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 // BotData and ErrorState Interfaces
 interface BotData {
@@ -27,6 +31,7 @@ interface DiscordBotInfo {
 
 export default function EditPage() {
   const navigate = useNavigate();
+  const [copied, setCopied] = useState(false);
   const { name } = useParams<{ name: string }>();
   const [botData, setBotData] = useState<BotData | null>(null);
   const [_error, setError] = useState<ErrorState | null>(null);
@@ -36,12 +41,8 @@ export default function EditPage() {
   const [appDataDirectory, setAppDataDirectory] = useState<string>("");
   const [newPluginPath, setNewPluginPath] = useState<string>("");
   const [notification, setNotification] = useState<
-    {
-      message: string;
-      type: "loading" | "success" | "error";
-    } | null
+    { message: string; type: "loading" | "success" | "error" } | null
   >(null);
-
   const [isTokenVisible, setIsTokenVisible] = useState(false); // State to toggle token visibility
 
   // Fetch app data directory
@@ -65,7 +66,6 @@ export default function EditPage() {
     try {
       const path = `${appDataDirectory}/bots/${name}`;
       const data = await invoke<BotData>("get_bot_data", { path });
-      console.log(data);
       setBotData(data);
     } catch (err) {
       setError({ message: "Failed to fetch bot data" });
@@ -171,6 +171,21 @@ export default function EditPage() {
   // Toggle token visibility
   const toggleTokenVisibility = () => setIsTokenVisible((prev) => !prev);
 
+  const handlerFolderOpen = async () => {
+    console.log(`${await appDataDir()}/bots/${name}`)
+    open(`C:/Users/char/AppData/Roaming/com.blitz.app/bots/Blitz`);
+  };
+
+
+
+
+  const copyCommand = () => {
+    const command = `cd ${appDataDirectory}/bots/${name} && deno add jsr:@blitz-bots/bot && deno task start`
+    navigator.clipboard.writeText(command);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div className="max-w-4xl mx-auto mt-[100px]">
       {/* Back Button */}
@@ -206,6 +221,14 @@ export default function EditPage() {
                     ID: {discordBotInfo.id}
                   </p>
                 </div>
+              </div>
+              <div>
+                <button>
+                  <FaFolderOpen
+                    onClick={() => handlerFolderOpen()}
+                    className="w-[20px] h-[20px] text-white/60 hover:text-white/100"
+                  />
+                </button>
               </div>
             </div>
           )
@@ -311,6 +334,39 @@ export default function EditPage() {
               </div>
             ))
           )}
+      </motion.div>
+
+      {/* Run Command Section */}
+      <motion.div
+        className="bg-white/5 p-6 rounded-lg shadow-md mt-8 mb-[60px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className="text-xl font-semibold mb-4 text-white">Run Command</h2>
+
+<div className="relative">
+        <SyntaxHighlighter
+          language="bash"
+          style={atomDark}
+          customStyle={{
+            background: "rgba(255, 255, 255, 0.05)",
+            padding: "1rem",
+            borderRadius: "0.5rem",
+          }}
+        >
+          {`cd ${appDataDirectory}/bots/${name} && deno add jsr:@blitz-bots/bot && deno task start`}
+        </SyntaxHighlighter>
+        <button
+                        onClick={copyCommand}
+                        className="absolute top-3 right-3 p-2 rounded-lg bg-black"
+                        aria-label="Copy command"
+                      >
+                        {copied
+                          ? <Check className="h-4 w-4 text-green-500" />
+                          : <Copy className="h-4 w-4 text-blitz-pink" />}
+                      </button>
+                      </div>
       </motion.div>
 
       {/* Show the notification if present */}

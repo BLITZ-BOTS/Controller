@@ -176,8 +176,8 @@ export default function PluginDetails() {
                         } as React.CSSProperties}
                       >
                         {version
-                          ? `blitz install ${plugin.name.toLowerCase()}@${version}`
-                          : `blitz install ${plugin.name.toLowerCase()}`}
+                          ? `${plugin.name.toLowerCase()}@${version}`
+                          : `${plugin.name.toLowerCase()}`}
                       </SyntaxHighlighter>
                       <button
                         onClick={copyCommand}
