@@ -53,6 +53,10 @@ Check out the [documentation](https://docs.blitz-bots.com/) for step-by-step gui
 
 We can't wait to see the incredible bots you'll create with Blitz Controller. Whether you’re just getting started or a bot-building **guru**, you’re in the right place. Together, let’s **create something amazing**!
 
+
+
+
+# <img src="https://assets.blitz-bots.com/controller.svg" />
 ---
 
 ### 🔗 Follow Us!

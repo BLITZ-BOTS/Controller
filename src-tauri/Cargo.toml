@@ -1,5 +1,5 @@
 [package]
-name = "Blitz Controller"
+name = "Blitz_Controller"
 version = "0.1.0"
 description = "The ultimate desktop app designed to make creating, managing, and customizing your Blitz bots a breeze. Whether you're a bot-building newbie or a seasoned pro, Blitz Controller gives you all the tools you need to create awesome bots, install powerful plugins, and tweak configurations—all in one place."
 authors = ["you"]

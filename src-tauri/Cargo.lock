@@ -3,6 +3,24 @@
 version = 3
 
 [[package]]
+name = "Blitz_Controller"
+version = "0.1.0"
+dependencies = [
+ "dotenv",
+ "git2",
+ "regex",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-fs",
+ "tauri-plugin-shell",
+ "zip",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -131,24 +149,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b048fb63fd8b5923fc5aa7b340d8e156aec7ec02f0c78fa8a6ddc2613f6f71de"
 dependencies = [
  "serde",
-]
-
-[[package]]
-name = "blitz-app"
-version = "0.1.0"
-dependencies = [
- "dotenv",
- "git2",
- "regex",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "serde_yaml",
- "tauri",
- "tauri-build",
- "tauri-plugin-fs",
- "tauri-plugin-shell",
- "zip",
 ]
 
 [[package]]
