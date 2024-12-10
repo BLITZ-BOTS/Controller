@@ -40,7 +40,7 @@ By contributing, you'll help shape Blitz Controller into the **go-to tool** for 
 ## 🚀 Getting Started
 
 1. **Download** Blitz Controller (for Windows, Mac, or Linux).
-2. **Install** the app and log in with your Blitz account.
+2. **Install** the app.
 3. Start building bots, installing plugins, and customizing like a **pro**!
 
 ## 📚 Need Help?
