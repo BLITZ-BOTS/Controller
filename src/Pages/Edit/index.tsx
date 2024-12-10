@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ChevronLeft, Cog, Eye, EyeOff, Lock, Trash2, Check, Copy } from "lucide-react";
+import { Check, ChevronLeft, Copy, Lock, Trash2 } from "lucide-react";
 import { FaFolderOpen } from "react-icons/fa";
 import { invoke } from "@tauri-apps/api/core";
 import { appDataDir } from "@tauri-apps/api/path";
@@ -29,6 +29,12 @@ interface DiscordBotInfo {
   avatar: string;
 }
 
+interface PluginSuggestion {
+  name: string;
+  description: string;
+  repoUrl: string;
+}
+
 export default function EditPage() {
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
@@ -44,6 +50,9 @@ export default function EditPage() {
     { message: string; type: "loading" | "success" | "error" } | null
   >(null);
   const [isTokenVisible, setIsTokenVisible] = useState(false); // State to toggle token visibility
+  const [pluginSuggestions, setPluginSuggestions] = useState<
+    PluginSuggestion[]
+  >([]); // State to store plugin suggestions
 
   // Fetch app data directory
   useEffect(() => {
@@ -110,14 +119,25 @@ export default function EditPage() {
   // Handle plugin uninstallation
   const handleDeletePlugin = async (plugin: string) => {
     if (!botData) return;
+    setNotification({ message: "Deleting plugin...", type: "loading" });
 
     try {
       await invoke("delete_dir", { path: plugin });
       const updatedPlugins = botData.plugins.filter((p) => p !== plugin);
       setBotData({ ...botData, plugins: updatedPlugins });
+
+      setNotification({
+        message: "Plugin deleted successfully!",
+        type: "success",
+      });
     } catch (err) {
       setError({ message: "Failed to delete plugin" });
       console.error("Error deleting plugin:", err);
+
+      setNotification({
+        message: "Failed to delete plugin",
+        type: "error",
+      });
     }
   };
 
@@ -172,18 +192,53 @@ export default function EditPage() {
   const toggleTokenVisibility = () => setIsTokenVisible((prev) => !prev);
 
   const handlerFolderOpen = async () => {
-    console.log(`${await appDataDir()}/bots/${name}`)
+    console.log(`${await appDataDir()}/bots/${name}`);
     open(`C:/Users/char/AppData/Roaming/com.blitz.app/bots/Blitz`);
   };
 
-
-
-
   const copyCommand = () => {
-    const command = `cd ${appDataDirectory}/bots/${name} && deno add jsr:@blitz-bots/bot && deno task start`
+    const command =
+      `cd ${appDataDirectory}/bots/${name} && deno add jsr:@blitz-bots/bot && deno task start`;
     navigator.clipboard.writeText(command);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  // Fetch plugin suggestions based on user input
+  const fetchPluginSuggestions = async (query: string) => {
+    if (!query.trim()) {
+      setPluginSuggestions([]); // Clear suggestions when input is empty
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.blitz-bots.com/plugins/search?query=${query}&per_page=5`,
+      );
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching plugin suggestions: ${response.statusText}`,
+        );
+      }
+
+      const data = await response.json();
+      setPluginSuggestions(data.data); // Update state with plugin suggestions from API
+    } catch (err) {
+      console.error("Error fetching plugin suggestions:", err);
+    }
+  };
+
+  // Handle input change in "Add New Plugin" field
+  const handlePluginInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNewPluginPath(value);
+    fetchPluginSuggestions(value); // Fetch suggestions as the user types
+  };
+
+  // Handle clicking on a suggestion
+  const handleSuggestionClick = (plugin: PluginSuggestion) => {
+    setNewPluginPath(plugin.name.toLowerCase()); // Set the input field to the clicked plugin's name
+    setPluginSuggestions([]); // Clear suggestions after selection
   };
 
   return (
@@ -259,8 +314,8 @@ export default function EditPage() {
             className="text-white bg-transparent border-none flex items-center justify-center"
           >
             {isTokenVisible
-              ? <EyeOff className="w-5 h-5" />
-              : <Eye className="w-5 h-5" />}
+              ? <Check className="w-5 h-5" />
+              : <Copy className="w-5 h-5" />}
           </button>
         </div>
       </motion.div>
@@ -279,7 +334,7 @@ export default function EditPage() {
           <input
             type="text"
             value={newPluginPath}
-            onChange={(e) => setNewPluginPath(e.target.value)}
+            onChange={handlePluginInputChange} // Update the input handler
             className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:border-[#FF30A0]"
             placeholder="Enter plugin name"
           />
@@ -290,6 +345,24 @@ export default function EditPage() {
             Add
           </button>
         </div>
+
+        {/* Plugin Suggestions - Only show if there are suggestions */}
+        {newPluginPath && pluginSuggestions.length > 0 && (
+          <div className="mt-4 bg-white/5 rounded-lg p-4 shadow-md">
+            <ul>
+              {pluginSuggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  className="text-white p-2 py-1 cursor-pointer hover:bg-white/10 rounded-md"
+                  onClick={() => handleSuggestionClick(suggestion)} // Handle suggestion click
+                >
+                  <strong>{suggestion.name.toLocaleLowerCase()}</strong>:{" "}
+                  {suggestion.description}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </motion.div>
 
       {/* Plugins Section */}
@@ -318,16 +391,7 @@ export default function EditPage() {
                       onClick={() => handleDeletePlugin(plugin_path)}
                       className="text-red-500 py-2 px-4 rounded-md bg-red-500/20 hover:bg-red-500/40 h-[50px] flex items-center justify-center"
                     >
-                      <Trash2 className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={() =>
-                        window.location.href = `/${name}/${
-                          plugin_path.split("/").pop()?.split("\\").pop()
-                        }`}
-                      className="items-center py-2 px-4 rounded-md bg-[#ffffff]/10 hover:bg-[#ffffff]/20 transition duration-200 h-[50px]"
-                    >
-                      <Cog />
+                      <Trash2 size={18} />
                     </button>
                   </div>
                 </div>
@@ -345,28 +409,28 @@ export default function EditPage() {
       >
         <h2 className="text-xl font-semibold mb-4 text-white">Run Command</h2>
 
-<div className="relative">
-        <SyntaxHighlighter
-          language="bash"
-          style={atomDark}
-          customStyle={{
-            background: "rgba(255, 255, 255, 0.05)",
-            padding: "1rem",
-            borderRadius: "0.5rem",
-          }}
-        >
-          {`cd ${appDataDirectory}/bots/${name} && deno add jsr:@blitz-bots/bot && deno task start`}
-        </SyntaxHighlighter>
-        <button
-                        onClick={copyCommand}
-                        className="absolute top-3 right-3 p-2 rounded-lg bg-black"
-                        aria-label="Copy command"
-                      >
-                        {copied
-                          ? <Check className="h-4 w-4 text-green-500" />
-                          : <Copy className="h-4 w-4 text-blitz-pink" />}
-                      </button>
-                      </div>
+        <div className="relative">
+          <SyntaxHighlighter
+            language="bash"
+            style={atomDark}
+            customStyle={{
+              background: "rgba(255, 255, 255, 0.05)",
+              padding: "1rem",
+              borderRadius: "0.5rem",
+            }}
+          >
+            {`cd ${appDataDirectory}/bots/${name} && deno add jsr:@blitz-bots/bot && deno task start`}
+          </SyntaxHighlighter>
+          <button
+            onClick={copyCommand}
+            className="absolute top-3 right-3 p-2 rounded-lg bg-black"
+            aria-label="Copy command"
+          >
+            {copied
+              ? <Check className="h-4 w-4 text-green-500" />
+              : <Copy className="h-4 w-4 text-blitz-pink" />}
+          </button>
+        </div>
       </motion.div>
 
       {/* Show the notification if present */}
