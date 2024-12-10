@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Check, ChevronLeft, Copy, Lock, Trash2 } from "lucide-react";
+import { Check, ChevronLeft, Copy, Lock, Trash2, CogIcon, EyeIcon, EyeClosed } from "lucide-react";
 import { FaFolderOpen } from "react-icons/fa";
 import { invoke } from "@tauri-apps/api/core";
 import { appDataDir } from "@tauri-apps/api/path";
@@ -314,8 +314,8 @@ export default function EditPage() {
             className="text-white bg-transparent border-none flex items-center justify-center"
           >
             {isTokenVisible
-              ? <Check className="w-5 h-5" />
-              : <Copy className="w-5 h-5" />}
+              ? <EyeIcon className="w-5 h-5" />
+              : <EyeClosed className="w-5 h-5" />}
           </button>
         </div>
       </motion.div>
@@ -393,6 +393,11 @@ export default function EditPage() {
                     >
                       <Trash2 size={18} />
                     </button>
+
+                    <button onClick={() => window.location.href = `/${name}/${plugin_path.split("/").pop()?.split("\\").pop()
+                      ?.toLocaleUpperCase()}`} className="text-white py-2 px-4 rounded-md bg-white/10 hover:bg-white/20 h-[50px] flex items-center justify-center">
+                          <CogIcon/>
+                        </button>
                   </div>
                 </div>
               </div>
