@@ -1,6 +1,15 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Check, ChevronLeft, Copy, Lock, Trash2, CogIcon, EyeIcon, EyeClosed } from "lucide-react";
+import {
+  Check,
+  ChevronLeft,
+  CogIcon,
+  Copy,
+  EyeClosed,
+  EyeIcon,
+  Lock,
+  Trash2,
+} from "lucide-react";
 import { FaFolderOpen } from "react-icons/fa";
 import { invoke } from "@tauri-apps/api/core";
 import { appDataDir } from "@tauri-apps/api/path";
@@ -75,6 +84,7 @@ export default function EditPage() {
     try {
       const path = `${appDataDirectory}/bots/${name}`;
       const data = await invoke<BotData>("get_bot_data", { path });
+      console.log(data);
       setBotData(data);
     } catch (err) {
       setError({ message: "Failed to fetch bot data" });
@@ -90,6 +100,7 @@ export default function EditPage() {
   useEffect(() => {
     const fetchDiscordBotInfo = async () => {
       if (!botData?.token) return;
+      console.log(`Bot ${botData.token}`);
 
       try {
         const response = await fetch("https://discord.com/api/v10/users/@me", {
@@ -192,8 +203,7 @@ export default function EditPage() {
   const toggleTokenVisibility = () => setIsTokenVisible((prev) => !prev);
 
   const handlerFolderOpen = async () => {
-    console.log(`${await appDataDir()}/bots/${name}`);
-    open(`C:/Users/char/AppData/Roaming/com.blitz.app/bots/Blitz`);
+    open(`${appDataDirectory}/bots/${name}`);
   };
 
   const copyCommand = () => {
@@ -394,10 +404,16 @@ export default function EditPage() {
                       <Trash2 size={18} />
                     </button>
 
-                    <button onClick={() => window.location.href = `/${name}/${plugin_path.split("/").pop()?.split("\\").pop()
-                      ?.toLocaleUpperCase()}`} className="text-white py-2 px-4 rounded-md bg-white/10 hover:bg-white/20 h-[50px] flex items-center justify-center">
-                          <CogIcon/>
-                        </button>
+                    <button
+                      onClick={() =>
+                        window.location.href = `/${name}/${
+                          plugin_path.split("/").pop()?.split("\\").pop()
+                            ?.toLocaleUpperCase()
+                        }`}
+                      className="text-white py-2 px-4 rounded-md bg-white/10 hover:bg-white/20 h-[50px] flex items-center justify-center"
+                    >
+                      <CogIcon />
+                    </button>
                   </div>
                 </div>
               </div>

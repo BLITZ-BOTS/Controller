@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Check, Copy } from "lucide-react";
@@ -193,7 +194,17 @@ export default function PluginDetails() {
 
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw]}
                     className="prose prose-invert prose-headings:text-white prose-a:text-[#FF30A0] prose-strong:text-white prose-code:bg-[#1e1e1e] prose-code:text-[#ff30a0] prose-pre:bg-transparent max-w-none"
+                    components={{
+                      img: ({ node, ...props }) => (
+                        <img
+                          {...props}
+                          style={{ maxWidth: "100%", borderRadius: "8px" }}
+                          alt={props.alt || "Markdown Image"}
+                        />
+                      ),
+                    }}
                   >
                     {readme || "No Read Me Found"}
                   </ReactMarkdown>

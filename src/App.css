@@ -26,7 +26,6 @@ select option {
   width: 5px;
 }
 
-
 ::-webkit-scrollbar-thumb {
   @apply bg-white/10;
 }

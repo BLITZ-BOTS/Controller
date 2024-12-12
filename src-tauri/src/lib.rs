@@ -26,7 +26,7 @@ fn create_bot(token: String, path: String) -> Result<(), String> {
     fs::create_dir_all(bot_path).map_err(|e| format!("Failed to create directory: {}", e))?;
 
     // Step 2: Create the "bot.ts" file
-    let bot_ts_url = "https://raw.githubusercontent.com/BLITZ-BOTS/Bot/main/Examples/basic.ts";
+    let bot_ts_url = "https://raw.githubusercontent.com/BLITZ-BOTS/Bot/main/Examples/custom_intents.ts";
     let bot_ts_content = get(bot_ts_url)
         .map_err(|e| format!("Failed to fetch bot.ts template: {}", e))?
         .text()
@@ -457,6 +457,11 @@ fn set_config_value(path: String, key: String, value: String) -> Result<(), Stri
     println!("Successfully set '{}' to '{}' in config", key, value);
     Ok(())
 }
+
+
+
+
+
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
