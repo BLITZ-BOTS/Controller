@@ -5,6 +5,9 @@ import { appLocalDataDir, join } from "@tauri-apps/api/path";
 // Functions
 import { create_bots_directory } from "./create_bots_directory";
 
+// Types
+import { Bot } from "../../../Types/Responses/Bot.ts";
+
 export async function fetch_user_bots() {
   try {
     // Read the directory entries in the "bots" folder
@@ -14,7 +17,7 @@ export async function fetch_user_bots() {
     const appsDirectory = await appLocalDataDir();
 
     // Initialize the bots array with the correct type
-    const bots: { name: string; locationPath: string }[] = [];
+    const bots: Bot[] = [];
 
     for (const dir of entries) {
       if (dir.isDirectory && dir.name) {

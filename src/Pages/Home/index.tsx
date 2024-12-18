@@ -4,10 +4,8 @@ import { useEffect, useState } from "react";
 // Backend Functions
 import { fetch_user_bots } from "../../Backend/API/Commands/File System/fetch_user_bots";
 
-interface Bot {
-  name: string;
-  locationPath: string;
-}
+// Types
+import { Bot } from "../../Backend/Types/Responses/Bot";
 
 const Home = () => {
   const [bots, setBots] = useState<Bot[]>([]);
