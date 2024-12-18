@@ -1,5 +1,5 @@
 // Packages
-import { create, mkdir, writeTextFile } from "@tauri-apps/plugin-fs";
+import { mkdir, writeTextFile } from "@tauri-apps/plugin-fs";
 import { appLocalDataDir, join } from "@tauri-apps/api/path";
 
 // Types
@@ -10,6 +10,7 @@ export async function create_bot(token: string, name: string) {
   // Define Project Paths
   const botsPath = await join(appDirectory, "bots", name);
   const botTSPath = await join(botsPath, "bot.ts");
+  const intentsPath = await join(botsPath, "intents.ts");
   const envPath = await join(botsPath, ".env");
   const denoPath = await join(botsPath, "deno.json");
   const pluginsPath = await join(botsPath, "plugins");
@@ -32,7 +33,9 @@ export async function create_bot(token: string, name: string) {
     await writeTextFile(envPath, envContents);
 
     // Create Bot.ts
-    const botFileContents = `import { Bot } from "@blitz-bots/bot";
+    const botFileContents = `import { Bot } from "jsr:@blitz-bots/bot";
+
+    import { intentsArray } from "./intents.ts";
 
     const token = Deno.env.get("DISCORD_TOKEN");
     
@@ -41,7 +44,7 @@ export async function create_bot(token: string, name: string) {
       Deno.exit(1);
     }
     
-    const bot = new Bot(token);
+    const bot = new Bot({ token: token, intents: intentsArray, pluginsDir: ""});
     
     try {
       await bot.start();
@@ -50,6 +53,20 @@ export async function create_bot(token: string, name: string) {
     }`;
 
     await writeTextFile(botTSPath, botFileContents);
+
+    // Create Intents.ts
+    const intentsFileContent =
+      `import { IntentsBitField } from "npm:discord.js";
+    export const intentsArray = [
+      IntentsBitField.Flags.Guilds,
+      IntentsBitField.Flags.GuildMessages,
+      IntentsBitField.Flags.MessageContent
+    ]`;
+
+    await writeTextFile(intentsPath, intentsFileContent);
+
+    // Create Plugins Dir
+    await mkdir(pluginsPath);
 
     return true;
   } catch (error) {
