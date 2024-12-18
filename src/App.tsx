@@ -5,13 +5,15 @@ import "./App.css";
 // Components
 import Layout from "./Layout";
 
+// Pages
+import Home from "./Pages/Home";
+
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Wrap pages with Layout */}
         <Route element={<Layout />}>
-          <Route path="/" element={<h1>hello</h1>} />
+          <Route path="/" element={<Home />} />
         </Route>
       </Routes>
     </Router>

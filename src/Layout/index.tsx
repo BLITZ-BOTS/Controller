@@ -6,7 +6,6 @@ import { Outlet } from "react-router-dom";
 import TitleBar from "./TitleBar";
 import Navbar from "./Navbar";
 
-
 interface LayoutProps {
   children?: React.ReactNode;
 }
@@ -18,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <TitleBar />
 
       {/* Navbar */}
-      <Navbar/>
+      <Navbar />
 
       {/* Main Content */}
       <main className="layout-content">
