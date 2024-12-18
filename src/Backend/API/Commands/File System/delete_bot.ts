@@ -1,8 +1,8 @@
 // Packages
-import { remove } from "@tauri-apps/plugin-fs";
+import { remove } from '@tauri-apps/plugin-fs';
 
 // Types
-import { Bot } from "../../../Types/Responses/Bot";
+import { Bot } from '../../../Types/Responses/Bot';
 
 export async function delete_bot(bot: Bot) {
   try {

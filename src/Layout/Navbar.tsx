@@ -1,24 +1,24 @@
-import { Book, Home, Menu, Puzzle, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Book, Home, Menu, Puzzle, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const navItems = [
-    { name: "Home", icon: Home, href: "/" },
-    { name: "Plugins", icon: Puzzle, href: "/plugins" },
-    { name: "Documentation", icon: Book, href: "https://docs.blitz-bots.com" },
+    { name: 'Home', icon: Home, href: '/' },
+    { name: 'Plugins', icon: Puzzle, href: '/plugins' },
+    { name: 'Documentation', icon: Book, href: 'https://docs.blitz-bots.com' },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -28,8 +28,8 @@ export default function Navbar() {
       <nav
         className={`fixed top-[30px] pt-2 pb-2 w-full z-50 transition-colors duration-300 z-998 ${
           isScrolled
-            ? "bg-white/02 backdrop-blur-md shadow-lg"
-            : "bg-black/90 backdrop-blur-sm"
+            ? 'bg-white/02 backdrop-blur-md shadow-lg'
+            : 'bg-black/90 backdrop-blur-sm'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,9 +53,11 @@ export default function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-300 hover:text-white"
             >
-              {isOpen
-                ? <X className="h-6 w-6" />
-                : <Menu className="h-6 w-6" />}
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -64,7 +66,7 @@ export default function Navbar() {
       {/* Sidebar */}
       <div
         className={`fixed top-0 right-0 min-h-screen w-64 bg-black/95 backdrop-blur-md transition-transform duration-300 ease-in-out border-l border-white/10 shadow-2xl ${
-          isOpen ? "translate-x-0 mt-[30px]" : "translate-x-full mt-[30px]"
+          isOpen ? 'translate-x-0 mt-[30px]' : 'translate-x-full mt-[30px]'
         } z-50`}
       >
         {/* Sidebar Header */}
@@ -107,11 +109,10 @@ export default function Navbar() {
       {/* Overlay */}
       <div
         className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         } z-40`}
         onClick={() => setIsOpen(false)}
-      >
-      </div>
+      ></div>
     </>
   );
 }

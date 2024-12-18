@@ -1,20 +1,21 @@
 // Packages
-import React, { useState } from "react";
-import { X } from "lucide-react";
+import React, { useState } from 'react';
+import { X } from 'lucide-react';
 
 // Backend Functions
-import { create_bot } from "../../Backend/API/Commands/File System/create_bot";
+import { create_bot } from '../../Backend/API/Commands/File System/create_bot';
 
 interface CreateBotModalProps {
   onClose: () => void;
   onCompleted: (data: { error: boolean }) => void;
 }
 
-const CreateBotModal: React.FC<CreateBotModalProps> = (
-  { onClose, onCompleted },
-) => {
-  const [name, setName] = useState("");
-  const [token, setToken] = useState("");
+const CreateBotModal: React.FC<CreateBotModalProps> = ({
+  onClose,
+  onCompleted,
+}) => {
+  const [name, setName] = useState('');
+  const [token, setToken] = useState('');
 
   const handleCreate = async () => {
     var create_try = false;

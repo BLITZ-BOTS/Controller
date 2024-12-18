@@ -1,16 +1,20 @@
 // Packages
-import { getCurrentWindow } from "@tauri-apps/api/window";
-import { Minus, X } from "lucide-react";
+import { getCurrentWindow } from '@tauri-apps/api/window';
+import { Minus, X } from 'lucide-react';
 
 const TitleBar = () => {
   const appWindow = getCurrentWindow();
 
-  {/* Handle Minimize Button */}
+  {
+    /* Handle Minimize Button */
+  }
   const handleMinimize = () => {
     appWindow.minimize();
   };
 
-  {/* Handle Close Button */}
+  {
+    /* Handle Close Button */
+  }
   const handleClose = () => {
     appWindow.close();
   };

@@ -1,18 +1,18 @@
 // Packages
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Folder } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Folder } from 'lucide-react';
 
 // Backend Functions
-import { fetch_user_bots } from "../../Backend/API/Commands/File System/fetch_user_bots";
+import { fetch_user_bots } from '../../Backend/API/Commands/File System/fetch_user_bots';
 
 // Types
-import { Bot } from "../../Backend/Types/Responses/Bot";
+import { Bot } from '../../Backend/Types/Responses/Bot';
 
 // Components
-import BotCard from "./Components/BotCard";
-import { useNotification } from "../../Backend/Hooks/NotificationContext";
-import { useModal } from "../../Backend/Hooks/Modal/ModalContext";
+import BotCard from './Components/BotCard';
+import { useNotification } from '../../Backend/Hooks/NotificationContext';
+import { useModal } from '../../Backend/Hooks/Modal/ModalContext';
 
 const Home = () => {
   const [bots, setBots] = useState<Bot[]>([]);
@@ -25,8 +25,8 @@ const Home = () => {
       const returnedBots = await fetch_user_bots();
       setBots(returnedBots);
     } catch (error) {
-      console.error("Error fetching bots:", error);
-      addNotification("Error Fetching Bots", "error");
+      console.error('Error fetching bots:', error);
+      addNotification('Error Fetching Bots', 'error');
     }
   };
 
@@ -39,34 +39,26 @@ const Home = () => {
 
   // Delete Bot
   const deleteBotBTNHandler = async (bot: Bot) => {
-    showModal(
-      "delete_bot",
-      { bot },
-      async (data) => {
-        if (data?.error) {
-          addNotification(`Error Deleting ${bot.name}`, "error");
-        } else {
-          addNotification(`Deleted ${bot.name}`, "success");
-          loadBots();
-        }
-      },
-    );
+    showModal('delete_bot', { bot }, async (data) => {
+      if (data?.error) {
+        addNotification(`Error Deleting ${bot.name}`, 'error');
+      } else {
+        addNotification(`Deleted ${bot.name}`, 'success');
+        loadBots();
+      }
+    });
   };
 
   // Create Bot
   const createBotBTNHandler = async () => {
-    showModal(
-      "create_bot",
-      {},
-      (data) => {
-        if (data?.error) {
-          addNotification("Error Creating Bot", "error");
-        } else {
-          addNotification("Created Bot", "success");
-          loadBots();
-        }
-      },
-    );
+    showModal('create_bot', {}, (data) => {
+      if (data?.error) {
+        addNotification('Error Creating Bot', 'error');
+      } else {
+        addNotification('Created Bot', 'success');
+        loadBots();
+      }
+    });
   };
 
   return (
@@ -79,7 +71,7 @@ const Home = () => {
         <h1 className="text-3xl font-bold">Your Bots</h1>
         <div className="flex space-x-4">
           <button
-            onClick={() => console.log("test")}
+            onClick={() => console.log('test')}
             className="bg-blitz-pink/20 text-blitz-pink border-blitz-pink p-2 rounded-lg hover:bg-blitz-pink/30"
           >
             <Folder size={20} />

@@ -1,4 +1,4 @@
-import { InstalledPlugin } from "./InstalledPlugin";
+import { InstalledPlugin } from './InstalledPlugin';
 export interface LocalBotData {
   token?: string;
   intents?: string[];

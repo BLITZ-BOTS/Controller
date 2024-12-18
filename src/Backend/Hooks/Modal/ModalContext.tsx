@@ -1,11 +1,11 @@
 // Packages
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from 'react';
 
 // Components
-import ModalRenderer from "./ModalRenderer";
+import ModalRenderer from './ModalRenderer';
 
 // Modal Types
-type ModalType = "create_bot" | "delete_bot";
+type ModalType = 'create_bot' | 'delete_bot';
 
 // Props for Modal Data
 interface ModalProps {
@@ -19,7 +19,7 @@ interface ModalContextProps {
   showModal: (
     type: ModalType,
     props?: Record<string, any>,
-    onCompleted?: (data?: { error: boolean }) => void,
+    onCompleted?: (data?: { error: boolean }) => void
   ) => void;
   closeModal: () => void;
 }
@@ -27,15 +27,15 @@ interface ModalContextProps {
 const ModalContext = createContext<ModalContextProps | undefined>(undefined);
 
 // Modal Provider Component
-export const ModalProvider: React.FC<{ children: React.ReactNode }> = (
-  { children },
-) => {
+export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [modal, setModal] = useState<ModalProps | null>(null);
 
   const showModal = (
     type: ModalType,
     props?: Record<string, any>,
-    onCompleted?: () => void,
+    onCompleted?: () => void
   ) => {
     setModal({ type, props, onCompleted });
   };
@@ -57,7 +57,7 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = (
 export const useModal = () => {
   const context = useContext(ModalContext);
   if (!context) {
-    throw new Error("useModal must be used within a ModalProvider");
+    throw new Error('useModal must be used within a ModalProvider');
   }
   return context;
 };

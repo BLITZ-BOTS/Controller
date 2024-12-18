@@ -1,10 +1,10 @@
 // Packages
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 // Components
-import TitleBar from "./TitleBar";
-import Navbar from "./Navbar";
+import TitleBar from './TitleBar';
+import Navbar from './Navbar';
 
 interface LayoutProps {
   children?: React.ReactNode;
@@ -20,9 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Navbar />
 
       {/* Main Content */}
-      <main className="mt-[100px]">
-        {children ? children : <Outlet />}
-      </main>
+      <main className="mt-[100px]">{children ? children : <Outlet />}</main>
     </>
   );
 };

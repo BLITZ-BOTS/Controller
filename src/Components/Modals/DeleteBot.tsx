@@ -1,12 +1,12 @@
 // Packages
-import React from "react";
-import { X } from "lucide-react";
+import React from 'react';
+import { X } from 'lucide-react';
 
 // Types
-import { Bot } from "../../Backend/Types/Responses/Bot";
+import { Bot } from '../../Backend/Types/Responses/Bot';
 
 // Backend Functions
-import { delete_bot } from "../../Backend/API/Commands/File System/delete_bot";
+import { delete_bot } from '../../Backend/API/Commands/File System/delete_bot';
 
 interface DeleteBotModalProps {
   bot: Bot;
@@ -14,9 +14,11 @@ interface DeleteBotModalProps {
   onCompleted: (data: { error: boolean }) => void;
 }
 
-const DeleteBotModal: React.FC<DeleteBotModalProps> = (
-  { bot, onClose, onCompleted },
-) => {
+const DeleteBotModal: React.FC<DeleteBotModalProps> = ({
+  bot,
+  onClose,
+  onCompleted,
+}) => {
   const handleDelete = async () => {
     var delete_try = false;
     try {
@@ -40,7 +42,7 @@ const DeleteBotModal: React.FC<DeleteBotModalProps> = (
         </div>
 
         <p className="text-gray-300 mb-6">
-          Are you sure you want to delete{" "}
+          Are you sure you want to delete{' '}
           <span className="font-semibold text-white">{bot.name}</span>? This
           action cannot be undone.
         </p>

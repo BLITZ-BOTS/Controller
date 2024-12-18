@@ -1,6 +1,6 @@
 // Packages
-import { mkdir, writeTextFile } from "@tauri-apps/plugin-fs";
-import { appLocalDataDir, join } from "@tauri-apps/api/path";
+import { mkdir, writeTextFile } from '@tauri-apps/plugin-fs';
+import { appLocalDataDir, join } from '@tauri-apps/api/path';
 
 // Types
 
@@ -8,12 +8,12 @@ export async function create_bot(token: string, name: string) {
   const appDirectory = await appLocalDataDir();
 
   // Define Project Paths
-  const botsPath = await join(appDirectory, "bots", name);
-  const botTSPath = await join(botsPath, "bot.ts");
-  const intentsPath = await join(botsPath, "intents.ts");
-  const envPath = await join(botsPath, ".env");
-  const denoPath = await join(botsPath, "deno.json");
-  const pluginsPath = await join(botsPath, "plugins");
+  const botsPath = await join(appDirectory, 'bots', name);
+  const botTSPath = await join(botsPath, 'bot.ts');
+  const intentsPath = await join(botsPath, 'intents.ts');
+  const envPath = await join(botsPath, '.env');
+  const denoPath = await join(botsPath, 'deno.json');
+  const pluginsPath = await join(botsPath, 'plugins');
 
   try {
     // Create Bots Base Folder
@@ -23,7 +23,7 @@ export async function create_bot(token: string, name: string) {
     const denoContents = JSON.stringify({
       tasks: {
         start:
-          "deno run --allow-net --allow-read --allow-env --env=.env bot.ts",
+          'deno run --allow-net --allow-read --allow-env --env=.env bot.ts',
       },
     });
     await writeTextFile(denoPath, denoContents);
@@ -55,8 +55,7 @@ export async function create_bot(token: string, name: string) {
     await writeTextFile(botTSPath, botFileContents);
 
     // Create Intents.ts
-    const intentsFileContent =
-      `import { IntentsBitField } from "npm:discord.js";
+    const intentsFileContent = `import { IntentsBitField } from "npm:discord.js";
     export const intentsArray = [
       IntentsBitField.Flags.Guilds,
       IntentsBitField.Flags.GuildMessages,

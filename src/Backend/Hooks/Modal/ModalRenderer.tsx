@@ -1,10 +1,10 @@
-import React from "react";
-import CreateBotModal from "../../../Components/Modals/CreateBot";
-import DeleteBotModal from "../../../Components/Modals/DeleteBot";
+import React from 'react';
+import CreateBotModal from '../../../Components/Modals/CreateBot';
+import DeleteBotModal from '../../../Components/Modals/DeleteBot';
 
 interface ModalRendererProps {
   modal: {
-    type: "create_bot" | "delete_bot";
+    type: 'create_bot' | 'delete_bot';
     props?: Record<string, any>;
     onCompleted?: (data?: { error: boolean }) => void;
   };
@@ -20,7 +20,7 @@ const ModalRenderer: React.FC<ModalRendererProps> = ({ modal, closeModal }) => {
   };
 
   switch (type) {
-    case "create_bot":
+    case 'create_bot':
       return (
         <CreateBotModal
           {...props}
@@ -28,7 +28,7 @@ const ModalRenderer: React.FC<ModalRendererProps> = ({ modal, closeModal }) => {
           onCompleted={handleCompletion}
         />
       );
-    case "delete_bot":
+    case 'delete_bot':
       return (
         <DeleteBotModal
           {...props}

@@ -1,20 +1,20 @@
 // Packages
-import { exists, readDir, readTextFile } from "@tauri-apps/plugin-fs";
-import { appLocalDataDir, join } from "@tauri-apps/api/path";
-import * as yaml from "js-yaml";
+import { exists, readDir, readTextFile } from '@tauri-apps/plugin-fs';
+import { appLocalDataDir, join } from '@tauri-apps/api/path';
+import * as yaml from 'js-yaml';
 
 // Functions
 
 // Types
-import { LocalBotData } from "../../../Types/LocalBotData";
+import { LocalBotData } from '../../../Types/LocalBotData';
 import {
   InstalledPlugin,
   InstalledPluginMetadata,
-} from "../../../Types/InstalledPlugin";
+} from '../../../Types/InstalledPlugin';
 
 export async function fetch_local_bot_data(name: string) {
   const appsDirectory = await appLocalDataDir();
-  const botFolderPath = await join(appsDirectory, "bots", name);
+  const botFolderPath = await join(appsDirectory, 'bots', name);
 
   const botFolderExists = await exists(botFolderPath);
   if (!botFolderExists) return false;
@@ -23,7 +23,7 @@ export async function fetch_local_bot_data(name: string) {
 
   // Fetch Token From .env
 
-  const envFileContent = await readTextFile(await join(botFolderPath, ".env"));
+  const envFileContent = await readTextFile(await join(botFolderPath, '.env'));
   const TokenRegex = /"([^"]*)"/;
   const envSplit = envFileContent.match(TokenRegex);
   if (envSplit) {
@@ -33,14 +33,14 @@ export async function fetch_local_bot_data(name: string) {
   // Fetch Intents From intents.ts
 
   const intentsFileContent = await readTextFile(
-    await join(botFolderPath, "intents.ts"),
+    await join(botFolderPath, 'intents.ts')
   );
   const IntentsRegex = /\[([^\]]+)\]/;
   const IntentsSplit = intentsFileContent.match(IntentsRegex);
   if (IntentsSplit) {
-    const IntentsArray = IntentsSplit[1].split(",");
+    const IntentsArray = IntentsSplit[1].split(',');
     const cleanedIntentsArray = IntentsArray.map((item) => {
-      return item.replace("IntentsBitField.Flags.", "").trim();
+      return item.replace('IntentsBitField.Flags.', '').trim();
     });
 
     bot_data.intents = cleanedIntentsArray;
@@ -49,14 +49,14 @@ export async function fetch_local_bot_data(name: string) {
   }
 
   // Fetch All Plugins
-  const installed_plugins = await readDir(await join(botFolderPath, "plugins"));
+  const installed_plugins = await readDir(await join(botFolderPath, 'plugins'));
 
   var bot_plugins: InstalledPlugin[] = [];
 
   installed_plugins.forEach(async (plugin) => {
     if (plugin.isDirectory) {
       var plugin_data: InstalledPlugin = {
-        path: await join(botFolderPath, "plugins", plugin.name),
+        path: await join(botFolderPath, 'plugins', plugin.name),
         metadata: {},
       };
 
@@ -66,20 +66,15 @@ export async function fetch_local_bot_data(name: string) {
 
       // Fetch Local Plugin Config
       const plugin_config_exists = await exists(
-        await join(botFolderPath, "plugins", plugin.name, "blitz.config.yaml"),
+        await join(botFolderPath, 'plugins', plugin.name, 'blitz.config.yaml')
       );
       if (plugin_config_exists) {
         const plugin_config = await readTextFile(
-          await join(
-            botFolderPath,
-            "plugins",
-            plugin.name,
-            "blitz.config.yaml",
-          ),
+          await join(botFolderPath, 'plugins', plugin.name, 'blitz.config.yaml')
         );
 
         const parsedConfig = yaml.load(
-          plugin_config,
+          plugin_config
         ) as InstalledPluginMetadata;
 
         plugin_data.metadata.name = parsedConfig.name;
