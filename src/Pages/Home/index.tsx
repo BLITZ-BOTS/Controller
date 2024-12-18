@@ -1,7 +1,6 @@
 // Packages
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Folder } from 'lucide-react';
 
 // Backend Functions
 import { fetch_user_bots } from '../../Backend/API/Commands/File System/fetch_user_bots';
@@ -61,6 +60,11 @@ const Home = () => {
     });
   };
 
+  // Edit Bot
+  const editBotBTNHandler = (bot: Bot) => {
+    window.location.href = `/bots/edit/${bot.name}`;
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <motion.div
@@ -70,12 +74,6 @@ const Home = () => {
       >
         <h1 className="text-3xl font-bold">Your Bots</h1>
         <div className="flex space-x-4">
-          <button
-            onClick={() => console.log('test')}
-            className="bg-blitz-pink/20 text-blitz-pink border-blitz-pink p-2 rounded-lg hover:bg-blitz-pink/30"
-          >
-            <Folder size={20} />
-          </button>
           <button
             onClick={() => createBotBTNHandler()}
             className="bg-gradient-to-r from-[#DD2832] to-[#FF30A0] text-white px-6 py-2 rounded-lg font-semibold hover:opacity-90"
@@ -108,7 +106,7 @@ const Home = () => {
           >
             <BotCard
               bot={bot}
-              onEdit={() => (window.location.href = `/edit/${bot.name}`)}
+              onEdit={() => editBotBTNHandler(bot)}
               onDelete={() => deleteBotBTNHandler(bot)}
             />
           </motion.div>

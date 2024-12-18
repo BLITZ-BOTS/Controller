@@ -51,41 +51,43 @@ export async function fetch_local_bot_data(name: string) {
   // Fetch All Plugins
   const installed_plugins = await readDir(await join(botFolderPath, 'plugins'));
 
-  var bot_plugins: InstalledPlugin[] = [];
+  const bot_plugins: InstalledPlugin[] = [];
 
-  installed_plugins.forEach(async (plugin) => {
+  for (const plugin of installed_plugins) {
     if (plugin.isDirectory) {
-      var plugin_data: InstalledPlugin = {
+      const plugin_data: InstalledPlugin = {
         path: await join(botFolderPath, 'plugins', plugin.name),
         metadata: {},
       };
 
-      if (!plugin_data.metadata) {
-        plugin_data.metadata = {};
-      }
-
-      // Fetch Local Plugin Config
-      const plugin_config_exists = await exists(
-        await join(botFolderPath, 'plugins', plugin.name, 'blitz.config.yaml')
+      // Check if the plugin has a config file
+      const plugin_config_path = await join(
+        botFolderPath,
+        'plugins',
+        plugin.name,
+        'blitz.config.yaml'
       );
-      if (plugin_config_exists) {
-        const plugin_config = await readTextFile(
-          await join(botFolderPath, 'plugins', plugin.name, 'blitz.config.yaml')
-        );
+      const plugin_config_exists = await exists(plugin_config_path);
 
+      if (plugin_config_exists) {
+        const plugin_config = await readTextFile(plugin_config_path);
+
+        // Parse the YAML config file
         const parsedConfig = yaml.load(
           plugin_config
         ) as InstalledPluginMetadata;
 
-        plugin_data.metadata.name = parsedConfig.name;
-        plugin_data.metadata.description = parsedConfig.description;
-        plugin_data.metadata.version = parsedConfig.version;
-        plugin_data.metadata.config = parsedConfig.config;
-
-        bot_plugins.push(plugin_data);
+        plugin_data.metadata = {
+          name: parsedConfig.name,
+          description: parsedConfig.description,
+          version: parsedConfig.version,
+          config: parsedConfig.config,
+        };
       }
+
+      bot_plugins.push(plugin_data);
     }
-  });
+  }
 
   bot_data.installed_plugins = bot_plugins;
 

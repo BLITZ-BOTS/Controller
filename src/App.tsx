@@ -7,7 +7,7 @@ import Layout from './Layout';
 
 // Pages
 import Home from './Pages/Home';
-import { Test } from './Pages/Tests';
+import Edit from './Pages/Bot_Edit';
 
 // Contexts
 import { NotificationProvider } from './Backend/Hooks/NotificationContext';
@@ -21,7 +21,7 @@ function App() {
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
-              <Route path="/plugins" element={<Test />} />
+              <Route path="/bots/edit/:name" element={<Edit />} />
             </Route>
           </Routes>
         </ModalProvider>

@@ -7,15 +7,23 @@
   ],
   "permissions": [
     "core:default",
+    "shell:allow-open",
+    "shell:allow-spawn",
+    "shell:allow-execute",
+    "shell:default",
     "opener:default",
     "core:window:default",
     "core:window:allow-start-dragging",
     "core:window:allow-close",
     "core:window:allow-minimize",
+    "fs:allow-applocaldata-meta",
+    "fs:allow-applocaldata-meta-recursive",
     "fs:default",
     "fs:allow-applocaldata-read",
     "fs:allow-applocaldata-write",
     "fs:allow-applocaldata-write-recursive",
-    "fs:allow-applocaldata-read-recursive"
+    "fs:allow-applocaldata-read-recursive",
+    "fs:allow-open",
+    "fs:scope-applocaldata"
   ]
 }
