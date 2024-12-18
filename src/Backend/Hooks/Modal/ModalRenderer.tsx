@@ -14,9 +14,9 @@ interface ModalRendererProps {
 const ModalRenderer: React.FC<ModalRendererProps> = ({ modal, closeModal }) => {
   const { type, props, onCompleted } = modal;
 
-  const handleCompletion = () => {
-    if (onCompleted) onCompleted();
-    closeModal();
+  const handleCompletion = (data?: { error: boolean }) => {
+      if (onCompleted) onCompleted(data);
+      closeModal();
   };
 
   switch (type) {
