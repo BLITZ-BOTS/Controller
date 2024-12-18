@@ -7,6 +7,7 @@ import Layout from "./Layout";
 
 // Pages
 import Home from "./Pages/Home";
+import { Test } from "./Pages/Tests";
 
 // Contexts
 import { NotificationProvider } from "./Backend/Hooks/NotificationContext";
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
+              <Route path="/plugins" element={<Test />} />
             </Route>
           </Routes>
         </ModalProvider>
