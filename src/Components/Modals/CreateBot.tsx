@@ -20,12 +20,10 @@ const CreateBotModal: React.FC<CreateBotModalProps> = (
     var create_try = false;
     try {
       const create_attempt = await create_bot(token, name);
-      console.log(create_attempt);
       create_try = create_attempt;
     } catch (error) {
       create_try = false;
     }
-    console.log(!create_try);
     onCompleted({ error: !create_try });
   };
 

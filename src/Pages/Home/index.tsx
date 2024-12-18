@@ -59,11 +59,11 @@ const Home = () => {
       "create_bot",
       {},
       (data) => {
-        console.log("CHECK", data?.error);
         if (data?.error) {
           addNotification("Error Creating Bot", "error");
         } else {
           addNotification("Created Bot", "success");
+          loadBots();
         }
       },
     );
