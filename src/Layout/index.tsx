@@ -20,14 +20,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Navbar />
 
       {/* Main Content */}
-      <main className="layout-content">
+      <main className="mt-[100px]">
         {children ? children : <Outlet />}
       </main>
-
-      {/* Footer */}
-      <footer className="layout-footer">
-        <p>© 2024 Your App. All Rights Reserved.</p>
-      </footer>
     </>
   );
 };

@@ -8,14 +8,22 @@ import Layout from "./Layout";
 // Pages
 import Home from "./Pages/Home";
 
+// Contexts
+import { NotificationProvider } from "./Backend/Hooks/NotificationContext";
+import { ModalProvider } from "./Backend/Hooks/Modal/ModalContext";
+
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-        </Route>
-      </Routes>
+      <NotificationProvider>
+        <ModalProvider>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+            </Route>
+          </Routes>
+        </ModalProvider>
+      </NotificationProvider>
     </Router>
   );
 }
