@@ -1,15 +1,42 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
+import { NotificationProvider, useNotification } from "./Backend/Hooks/NotificationContext";
 import "./App.css";
 
-function App() {
+const AppContent = () => {
+  const { addNotification } = useNotification();
 
+  const handleSuccess = () => {
+    addNotification("This is a success message!", "success");
+  };
+
+  const handleError = () => {
+    addNotification("This is an error message!", "error");
+  };
+
+  const handleLoading = () => {
+    addNotification("Loading in progress...", "loading");
+  };
 
   return (
-    <main className="container">
-      <h1 className="text-white">Welcome to Tauri + React</h1>
-    </main>
+    <div className="p-4">
+      <h1>Home Page</h1>
+      <button onClick={handleSuccess} className="btn btn-success">
+        Show Success Notification
+      </button>
+      <button onClick={handleError} className="btn btn-danger">
+        Show Error Notification
+      </button>
+      <button onClick={handleLoading} className="btn btn-warning">
+        Show Loading Notification
+      </button>
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <NotificationProvider>
+      <AppContent />
+    </NotificationProvider>
   );
 }
 
