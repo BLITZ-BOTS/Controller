@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useCallback, useContext, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Notification from "../../Components/Notification";
 
@@ -9,16 +9,28 @@ interface NotificationData {
 }
 
 interface NotificationContextType {
-  addNotification: (message: string, type: "loading" | "success" | "error", duration?: number) => void;
+  addNotification: (
+    message: string,
+    type: "loading" | "success" | "error",
+    duration?: number,
+  ) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+const NotificationContext = createContext<NotificationContextType | undefined>(
+  undefined,
+);
 
-export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const NotificationProvider: React.FC<{ children: React.ReactNode }> = (
+  { children },
+) => {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
 
   const addNotification = useCallback(
-    (message: string, type: "loading" | "success" | "error", duration: number = 3000) => {
+    (
+      message: string,
+      type: "loading" | "success" | "error",
+      duration: number = 3000,
+    ) => {
       const id = `${Date.now()}-${Math.random()}`;
       setNotifications((prev) => [...prev, { id, message, type }]);
 
@@ -27,7 +39,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         setNotifications((prev) => prev.filter((notif) => notif.id !== id));
       }, duration);
     },
-    []
+    [],
   );
 
   return (
@@ -48,7 +60,9 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 export const useNotification = (): NotificationContextType => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error("useNotification must be used within a NotificationProvider");
+    throw new Error(
+      "useNotification must be used within a NotificationProvider",
+    );
   }
   return context;
 };

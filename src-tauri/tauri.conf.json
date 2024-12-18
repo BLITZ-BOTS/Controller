@@ -12,9 +12,13 @@
   "app": {
     "windows": [
       {
-        "title": "controller",
-        "width": 800,
-        "height": 600
+        "title": "Blitz Controller",
+        "width": 1200,
+        "height": 600,
+        "fullscreen": false,
+        "decorations": false,
+        "center": true,
+        "resizable": false
       }
     ],
     "security": {
