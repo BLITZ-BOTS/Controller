@@ -4,6 +4,9 @@ import { Pencil, Trash2 } from 'lucide-react';
 // Types
 import { Bot } from '../../../Backend/Types/Responses/Bot';
 
+// Components
+import { Button } from '@/Components/ui/button';
+
 interface BotCardProps {
   bot: Bot;
   onEdit: (name: string) => void;
@@ -30,20 +33,22 @@ export default function BotCard({ bot, onEdit, onDelete }: BotCardProps) {
         </div>
 
         <div className="flex justify-end space-x-2">
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => onEdit(bot.name)}
-            className="p-2 rounded-lg hover:bg-white/10 transition-colors"
             title="Edit Bot"
           >
             <Pencil className="h-5 w-5 text-gray-400 hover:text-white transition-colors" />
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => onDelete(bot)}
-            className="p-2 rounded-lg hover:bg-white/10 transition-colors"
             title="Delete Bot"
           >
             <Trash2 className="h-5 w-5 text-gray-400 hover:text-red-500 transition-colors" />
-          </button>
+          </Button>
         </div>
       </div>
     </div>

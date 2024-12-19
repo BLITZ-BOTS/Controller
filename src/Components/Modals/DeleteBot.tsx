@@ -3,10 +3,13 @@ import React from 'react';
 import { X } from 'lucide-react';
 
 // Types
-import { Bot } from '../../Backend/Types/Responses/Bot';
+import { Bot } from '@/Backend/Types/Responses/Bot';
 
 // Backend Functions
-import { delete_bot } from '../../Backend/API/Commands/File System/delete_bot';
+import { delete_bot } from '@/Backend/API/Commands/File System/delete_bot';
+
+// Components
+import { Button } from '@/Components/ui/button';
 
 interface DeleteBotModalProps {
   bot: Bot;
@@ -36,9 +39,14 @@ const DeleteBotModal: React.FC<DeleteBotModalProps> = ({
       <div className="bg-black border border-white/10 rounded-xl p-6 max-w-md w-full mx-4">
         <div className="flex justify-between items-start mb-4">
           <h3 className="text-xl font-bold">Delete Bot</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-white">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+            className="text-gray-400 hover:text-white"
+          >
             <X className="h-5 w-5" />
-          </button>
+          </Button>
         </div>
 
         <p className="text-gray-300 mb-6">
@@ -48,18 +56,12 @@ const DeleteBotModal: React.FC<DeleteBotModalProps> = ({
         </p>
 
         <div className="flex justify-end space-x-3">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5 transition-colors"
-          >
+          <Button variant="secondary" onClick={onClose}>
             Cancel
-          </button>
-          <button
-            onClick={handleDelete}
-            className="px-4 py-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500/20 transition-colors"
-          >
+          </Button>
+          <Button variant="destructive" onClick={handleDelete}>
             Delete Bot
-          </button>
+          </Button>
         </div>
       </div>
     </div>

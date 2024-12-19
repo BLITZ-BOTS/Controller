@@ -12,19 +12,26 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.1",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-fs": "~2",
     "@tauri-apps/plugin-opener": "^2",
     "@tauri-apps/plugin-shell": "~2",
     "@types/js-yaml": "^4.0.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "framer-motion": "^11.15.0",
     "js-yaml": "^4.1.0",
     "lucide-react": "^0.468.0",
+    "path": "^0.12.7",
     "prettier": "^3.4.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-loading-skeleton": "^3.5.0",
-    "react-router-dom": "^7.0.2"
+    "react-router-dom": "^7.0.2",
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7",
+    "url": "^0.11.4"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",

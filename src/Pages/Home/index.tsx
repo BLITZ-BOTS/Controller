@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Backend Functions
-import { fetch_user_bots } from '../../Backend/API/Commands/File System/fetch_user_bots';
+import { fetch_user_bots } from '@/Backend/API/Commands/File System/fetch_user_bots';
 
 // Types
-import { Bot } from '../../Backend/Types/Responses/Bot';
+import { Bot } from '@/Backend/Types/Responses/Bot';
 
 // Components
 import BotCard from './Components/BotCard';
-import { useNotification } from '../../Backend/Hooks/NotificationContext';
-import { useModal } from '../../Backend/Hooks/Modal/ModalContext';
+import { useNotification } from '@/Backend/Hooks/NotificationContext';
+import { useModal } from '@/Backend/Hooks/Modal/ModalContext';
+import { Button } from '@/Components/ui/button';
 
 const Home = () => {
   const [bots, setBots] = useState<Bot[]>([]);
@@ -74,12 +75,7 @@ const Home = () => {
       >
         <h1 className="text-3xl font-bold">Your Bots</h1>
         <div className="flex space-x-4">
-          <button
-            onClick={() => createBotBTNHandler()}
-            className="bg-gradient-to-r from-[#DD2832] to-[#FF30A0] text-white px-6 py-2 rounded-lg font-semibold hover:opacity-90"
-          >
-            Create New Bot
-          </button>
+          <Button onClick={() => createBotBTNHandler()}>Create New Bot</Button>
         </div>
       </motion.div>
 

@@ -8,6 +8,8 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 // Components
 import { useNotification } from '../../Backend/Hooks/NotificationContext';
+import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
 
 // Backend Functions
 import { fetch_local_bot_data } from '../../Backend/API/Commands/File System/fetch_local_bot_data';
@@ -99,17 +101,14 @@ const Edit = () => {
   return (
     <div className="max-w-4xl mx-auto mt-[100px]">
       {/* Back Button */}
-      <motion.button
-        onClick={() => navigate(-1)}
-        className="flex items-center text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition duration-300 ease-in-out mb-6"
-      >
+      <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
         <ChevronLeft className="w-5 h-5 mr-2" />
         <span>Back</span>
-      </motion.button>
+      </Button>
 
       {/* Bot Info */}
       <motion.div
-        className="bg-blitz-pink/10 border-blitz-pink/60 border p-6 rounded-lg shadow-md mb-8"
+        className="bg-primary/10 border-primary/60 border p-6 rounded-md shadow-md mb-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -146,14 +145,15 @@ const Edit = () => {
           Token
         </h2>
         <div className="flex space-x-4 items-center">
-          <input
+          <Input
             type={isTokenVisible ? 'text' : 'password'}
             value={botData?.token}
-            disabled={true}
             className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:border-[#FF30A0]"
             placeholder="Enter new token"
           />
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={toggleTokenVisibility}
             className="text-white bg-transparent border-none flex items-center justify-center"
           >
@@ -162,7 +162,7 @@ const Edit = () => {
             ) : (
               <EyeClosed className="w-5 h-5" />
             )}
-          </button>
+          </Button>
         </div>
       </motion.div>
     </div>
