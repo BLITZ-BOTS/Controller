@@ -3,13 +3,12 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChevronLeft, EyeIcon, EyeClosed, Lock } from 'lucide-react';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 
 // Components
 import { useNotification } from '../../Backend/Hooks/NotificationContext';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
+import { Skeleton } from '@/Components/ui/skeleton';
 
 // Backend Functions
 import { fetch_local_bot_data } from '../../Backend/API/Commands/File System/fetch_local_bot_data';
@@ -101,7 +100,11 @@ const Edit = () => {
   return (
     <div className="max-w-4xl mx-auto mt-[100px]">
       {/* Back Button */}
-      <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+      <Button
+        variant="ghost"
+        className="mt-[40px] mb-[20px]"
+        onClick={() => navigate(-1)}
+      >
         <ChevronLeft className="w-5 h-5 mr-2" />
         <span>Back</span>
       </Button>
@@ -130,7 +133,16 @@ const Edit = () => {
             </div>
           </div>
         ) : (
-          <Skeleton circle height={80} width={80} />
+          <div className="flex items-center space-x-6">
+            {/* Avatar Skeleton */}
+            <Skeleton className="w-20 h-20 rounded-full" />
+            <div className="flex flex-col space-y-3">
+              {/* Username Skeleton */}
+              <Skeleton className="w-40 h-6 rounded-md" />
+              {/* ID Skeleton */}
+              <Skeleton className="w-32 h-4 rounded-sm" />
+            </div>
+          </div>
         )}
       </motion.div>
 

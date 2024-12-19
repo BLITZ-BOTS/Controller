@@ -1,5 +1,9 @@
+// Packages
 import { Book, Home, Menu, Puzzle, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
+// Components
+import { Button } from '@/Components/ui/button';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,16 +53,17 @@ export default function Navbar() {
             </div>
 
             {/* Hamburger Button */}
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-300 hover:text-white"
             >
               {isOpen ? (
                 <X className="h-6 w-6" />
               ) : (
                 <Menu className="h-6 w-6" />
               )}
-            </button>
+            </Button>
           </div>
         </div>
       </nav>
@@ -82,12 +87,14 @@ export default function Navbar() {
             <span className="text-white font-bold">BLITZ BOTS</span>
           </div>
 
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setIsOpen(false)}
             className="text-gray-300 hover:text-white"
           >
             <X className="h-6 w-6" />
-          </button>
+          </Button>
         </div>
 
         {/* Navigation Links */}
@@ -96,7 +103,7 @@ export default function Navbar() {
             <a
               key={item.name}
               href={item.href}
-              className="flex items-center space-x-3 text-gray-300 hover:text-white py-3 px-4 rounded-lg hover:bg-white/5 transition-colors"
+              className="flex items-center space-x-3 text-gray-300 hover:text-white py-3 px-4 rounded-md hover:bg-secondary/10 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <item.icon className="h-5 w-5" />
