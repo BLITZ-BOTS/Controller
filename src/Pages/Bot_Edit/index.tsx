@@ -2,7 +2,16 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ChevronLeft, EyeIcon, EyeClosed, Lock } from 'lucide-react';
+import {
+  ChevronLeft,
+  EyeIcon,
+  EyeClosed,
+  Lock,
+  Pencil,
+  Trash2,
+  Pen,
+  Trash,
+} from 'lucide-react';
 
 // Components
 import { useNotification } from '../../Backend/Hooks/NotificationContext';
@@ -25,6 +34,7 @@ import { fetchDiscordBotInfo } from '@/Backend/API/Fetch/Discord/FetchBot';
 
 // Types
 import { LocalBotData } from '@/Backend/Types/LocalBotData';
+import { InstalledPlugin } from '@/Backend/Types/InstalledPlugin';
 
 // Intent Mapping
 import { linkMap } from '@/Backend/Types/Intents';
@@ -259,7 +269,47 @@ const Edit = () => {
         </TabsContent>
 
         <TabsContent value="installed-plugins">
-          Change your password here.
+          <div className="space-y-4 mt-4">
+            {botData?.installed_plugins?.length > 0 ? (
+              botData?.installed_plugins.map(
+                (plugin: InstalledPlugin, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-4 bg-primary/10 border border-primary/20 rounded-md"
+                  >
+                    <div>
+                      <h1 className="text-white text-lg font-medium">
+                        {plugin.metadata?.name}@{plugin.metadata?.version}
+                      </h1>
+                      <span className="text-xs text-gray-500">
+                        {plugin.path}
+                      </span>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => console.log('test')}
+                      >
+                        <Pencil />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => console.log('test')}
+                      >
+                        <Trash2 />
+                      </Button>
+                    </div>
+                  </div>
+                )
+              )
+            ) : (
+              <h1 className="text-white text-lg font-medium">
+                No Installed Plugins.
+              </h1>
+            )}
+          </div>
         </TabsContent>
       </Tabs>
     </div>
