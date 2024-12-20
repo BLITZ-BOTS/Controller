@@ -226,7 +226,7 @@ const Edit = () => {
 
       {/* Bot Info */}
       <motion.div
-        className="bg-primary/10 border-primary/60 border p-6 rounded-md shadow-md mb-8"
+        className="bg-primary/20 border-primary border p-6 rounded-md shadow-md mb-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -323,12 +323,16 @@ const Edit = () => {
         {/* Installed Plugins */}
         <TabsContent value="installed-plugins">
           <div className="space-y-4 mt-4">
-            {/* Install Plugin Button */}
-            <Button className="flex items-center space-x-2 mb-6">
-              <Plus className="w-5 h-5" />
-              <span>Install Plugin</span>
-            </Button>
+            {/* Install Plugin Input and Button */}
+            <div className="flex items-center space-x-4">
+              <Input className="" />
+              <Button className="flex items-center space-x-2">
+                <Plus className="w-5 h-5" />
+                <span>Install Plugin</span>
+              </Button>
+            </div>
 
+            {/* Installed Plugins List */}
             {botData?.installed_plugins?.length ? (
               botData?.installed_plugins.map(
                 (plugin: InstalledPlugin, index) => (
@@ -337,8 +341,17 @@ const Edit = () => {
                     className="flex items-center justify-between p-4 bg-primary/10 border border-primary/20 rounded-md"
                   >
                     <div>
-                      <h1 className="text-white text-lg font-medium">
-                        {plugin.metadata?.name}@{plugin.metadata?.version}
+                      <h1 className="text-white text-lg font-medium opacity-80 hover:opacity-100">
+                        <a
+                          href={`https://blitz-bots.com/plugins/${plugin.metadata?.name?.toUpperCase()}/${plugin.metadata?.version}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {plugin.metadata?.name}@
+                          <span className="text-primary">
+                            {plugin.metadata?.version}
+                          </span>
+                        </a>
                       </h1>
                       <span className="text-xs text-gray-500">
                         {plugin.path}
