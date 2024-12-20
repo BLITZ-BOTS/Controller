@@ -9,8 +9,6 @@ import {
   Lock,
   Pencil,
   Trash2,
-  Pen,
-  Trash,
 } from 'lucide-react';
 
 // Components
@@ -31,10 +29,12 @@ import { Switch } from '@/Components/ui/switch';
 // Backend Functions
 import { fetch_local_bot_data } from '@/Backend/API/Commands/File System/fetch_local_bot_data';
 import { fetchDiscordBotInfo } from '@/Backend/API/Fetch/Discord/FetchBot';
+import { toggle_intent } from '@/Backend/API/Commands/File System/toggle_intent';
 
 // Types
 import { LocalBotData } from '@/Backend/Types/LocalBotData';
 import { InstalledPlugin } from '@/Backend/Types/InstalledPlugin';
+import { DiscordBotData } from '@/Backend/Types/DiscordBotData';
 
 // Intent Mapping
 import { linkMap } from '@/Backend/Types/Intents';
@@ -42,14 +42,16 @@ import { linkMap } from '@/Backend/Types/Intents';
 const Edit = () => {
   // Hooks
   const { addNotification } = useNotification();
-  const { name } = useParams();
+  const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
 
   // States
   const [botData, setBotData] = useState<LocalBotData | null>(null);
-  const [discordBotData, setDiscordBotData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isTokenVisible, setIsTokenVisible] = useState(false);
+  const [discordBotData, setDiscordBotData] = useState<DiscordBotData | null>(
+    null
+  );
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isTokenVisible, setIsTokenVisible] = useState<boolean>(false);
   const [intents, setIntents] = useState<Record<string, boolean>>({});
 
   // Fetch Local Bot Data
@@ -58,7 +60,9 @@ const Edit = () => {
       const fetchedData = await fetch_local_bot_data(name as string);
       setBotData((prevData) => {
         if (JSON.stringify(prevData) !== JSON.stringify(fetchedData)) {
-          return fetchedData;
+          if (fetchedData) {
+            return fetchedData;
+          }
         }
         return prevData;
       });
@@ -66,7 +70,9 @@ const Edit = () => {
       // Initialize intents state
       const initialIntents: Record<string, boolean> = {};
       Object.keys(linkMap).forEach((key) => {
-        initialIntents[key] = fetchedData?.intents?.includes(key) || false;
+        if (fetchedData) {
+          initialIntents[key] = fetchedData?.intents?.includes(key) || false;
+        }
       });
       setIntents(initialIntents);
     } catch (error) {
@@ -100,39 +106,23 @@ const Edit = () => {
     }
   }, [botData]);
 
-  // Refresh Data
-  const refreshData = async () => {
-    setLoading(true);
-    try {
-      const updatedData = await fetch_local_bot_data(name as string);
-      setBotData(updatedData);
-      if (updatedData.token) {
-        const discordData = await fetchDiscordBotInfo(updatedData.token);
-        setDiscordBotData(discordData);
-      }
-
-      // Update intents state
-      const updatedIntents: Record<string, boolean> = {};
-      Object.keys(linkMap).forEach((key) => {
-        updatedIntents[key] = updatedData?.intents?.includes(key) || false;
-      });
-      setIntents(updatedIntents);
-    } catch (error) {
-      addNotification('Error Refreshing Bot Data', 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Toggle Token Visibility
   const toggleTokenVisibility = () => setIsTokenVisible((prev) => !prev);
 
   // Toggle Intent
-  const handleToggleIntent = (intentKey: string) => {
-    setIntents((prevIntents) => ({
-      ...prevIntents,
-      [intentKey]: !prevIntents[intentKey],
-    }));
+  const handleToggleIntent = async (name: string, intentKey: string) => {
+    try {
+      // Call add_intent to add or remove the intent
+      const success = await toggle_intent(name, intentKey);
+      if (success) {
+        setIntents((prevIntents) => ({
+          ...prevIntents,
+          [intentKey]: !prevIntents[intentKey], // Toggle the intent state
+        }));
+      }
+    } catch (error) {
+      addNotification('Error toggling intent', 'error');
+    }
   };
 
   // If Loading
@@ -261,7 +251,9 @@ const Edit = () => {
                 <span className="text-white text-sm font-medium">{label}</span>
                 <Switch
                   checked={intents[key]}
-                  onCheckedChange={() => handleToggleIntent(key)}
+                  onCheckedChange={() =>
+                    handleToggleIntent(name as string, key)
+                  }
                 />
               </div>
             ))}
@@ -270,7 +262,7 @@ const Edit = () => {
 
         <TabsContent value="installed-plugins">
           <div className="space-y-4 mt-4">
-            {botData?.installed_plugins?.length > 0 ? (
+            {botData?.installed_plugins?.length ? (
               botData?.installed_plugins.map(
                 (plugin: InstalledPlugin, index) => (
                   <div
