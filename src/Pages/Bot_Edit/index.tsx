@@ -14,16 +14,20 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/Components/ui/breadcrumb';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/Components/ui/tabs';
+import { Switch } from '@/Components/ui/switch';
 
 // Backend Functions
-import { fetch_local_bot_data } from '../../Backend/API/Commands/File System/fetch_local_bot_data';
-import { fetchDiscordBotInfo } from '../../Backend/API/Fetch/Discord/FetchBot';
+import { fetch_local_bot_data } from '@/Backend/API/Commands/File System/fetch_local_bot_data';
+import { fetchDiscordBotInfo } from '@/Backend/API/Fetch/Discord/FetchBot';
 
 // Types
-import { LocalBotData } from '../../Backend/Types/LocalBotData';
+import { LocalBotData } from '@/Backend/Types/LocalBotData';
+
+// Intent Mapping
+import { linkMap } from '@/Backend/Types/Intents';
 
 const Edit = () => {
   // Hooks
@@ -36,6 +40,7 @@ const Edit = () => {
   const [discordBotData, setDiscordBotData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isTokenVisible, setIsTokenVisible] = useState(false);
+  const [intents, setIntents] = useState<Record<string, boolean>>({});
 
   // Fetch Local Bot Data
   const fetchBotData = async () => {
@@ -47,6 +52,13 @@ const Edit = () => {
         }
         return prevData;
       });
+
+      // Initialize intents state
+      const initialIntents: Record<string, boolean> = {};
+      Object.keys(linkMap).forEach((key) => {
+        initialIntents[key] = fetchedData?.intents?.includes(key) || false;
+      });
+      setIntents(initialIntents);
     } catch (error) {
       addNotification('Error Fetching Bot Data', 'error');
     } finally {
@@ -88,6 +100,13 @@ const Edit = () => {
         const discordData = await fetchDiscordBotInfo(updatedData.token);
         setDiscordBotData(discordData);
       }
+
+      // Update intents state
+      const updatedIntents: Record<string, boolean> = {};
+      Object.keys(linkMap).forEach((key) => {
+        updatedIntents[key] = updatedData?.intents?.includes(key) || false;
+      });
+      setIntents(updatedIntents);
     } catch (error) {
       addNotification('Error Refreshing Bot Data', 'error');
     } finally {
@@ -95,10 +114,16 @@ const Edit = () => {
     }
   };
 
-  // Buttons
-
   // Toggle Token Visibility
   const toggleTokenVisibility = () => setIsTokenVisible((prev) => !prev);
+
+  // Toggle Intent
+  const handleToggleIntent = (intentKey: string) => {
+    setIntents((prevIntents) => ({
+      ...prevIntents,
+      [intentKey]: !prevIntents[intentKey],
+    }));
+  };
 
   // If Loading
   if (loading) {
@@ -117,7 +142,7 @@ const Edit = () => {
         <span>Back</span>
       </Button>
 
-      {/* Page Breadcrums */}
+      {/* Page Breadcrumbs */}
       <div className="mb-[30px]">
         <Breadcrumb>
           <BreadcrumbList>
@@ -165,18 +190,16 @@ const Edit = () => {
           </div>
         ) : (
           <div className="flex items-center space-x-6">
-            {/* Avatar Skeleton */}
             <Skeleton className="w-20 h-20 rounded-full" />
             <div className="flex flex-col space-y-3">
-              {/* Username Skeleton */}
               <Skeleton className="w-40 h-6 rounded-md" />
-              {/* ID Skeleton */}
               <Skeleton className="w-32 h-4 rounded-sm" />
             </div>
           </div>
         )}
       </motion.div>
 
+      {/* Token Input */}
       <motion.div
         className="bg-white/5 p-6 rounded-lg shadow-md mt-8"
         initial={{ opacity: 0 }}
@@ -209,6 +232,36 @@ const Edit = () => {
           </Button>
         </div>
       </motion.div>
+
+      {/* Settings Tabs */}
+      <Tabs defaultValue="intents" className="mt-[50px] pb-[30px]">
+        <TabsList>
+          <TabsTrigger value="intents">Bot Intents</TabsTrigger>
+          <TabsTrigger value="installed-plugins">Installed Plugins</TabsTrigger>
+        </TabsList>
+
+        {/* Intents List */}
+        <TabsContent value="intents">
+          <div className="space-y-4 mt-4">
+            {Object.entries(linkMap).map(([key, label]) => (
+              <div
+                key={key}
+                className="flex items-center justify-between p-4 bg-primary/10 border border-primary/20 rounded-md"
+              >
+                <span className="text-white text-sm font-medium">{label}</span>
+                <Switch
+                  checked={intents[key]}
+                  onCheckedChange={() => handleToggleIntent(key)}
+                />
+              </div>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="installed-plugins">
+          Change your password here.
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
