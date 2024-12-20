@@ -10,6 +10,7 @@ import {
   Pencil,
   Trash2,
   Copy,
+  Plus, // Add this import for the 'Install Plugin' icon
 } from 'lucide-react';
 
 // Components
@@ -33,6 +34,7 @@ import { fetch_local_bot_data } from '@/Backend/API/Commands/File System/fetch_l
 import { fetchDiscordBotInfo } from '@/Backend/API/Fetch/Discord/FetchBot';
 import { toggle_intent } from '@/Backend/API/Commands/File System/toggle_intent';
 import { delete_plugin } from '@/Backend/API/Commands/File System/delete_plugin';
+// import { install_plugin } from '@/Backend/API/Commands/File System/install_plugin'; // Make sure to import the install_plugin function
 
 // Types
 import { LocalBotData } from '@/Backend/Types/LocalBotData';
@@ -153,6 +155,8 @@ const Edit = () => {
       addNotification(`Unable to uninstall ${plugin}`, 'error');
     }
   };
+
+  // Handle Plugin Installation
 
   // Handle permission toggle using checkboxes
   const handlePermissionToggle = (permissionId: string) => {
@@ -316,8 +320,15 @@ const Edit = () => {
           </div>
         </TabsContent>
 
+        {/* Installed Plugins */}
         <TabsContent value="installed-plugins">
           <div className="space-y-4 mt-4">
+            {/* Install Plugin Button */}
+            <Button className="flex items-center space-x-2 mb-6">
+              <Plus className="w-5 h-5" />
+              <span>Install Plugin</span>
+            </Button>
+
             {botData?.installed_plugins?.length ? (
               botData?.installed_plugins.map(
                 (plugin: InstalledPlugin, index) => (
