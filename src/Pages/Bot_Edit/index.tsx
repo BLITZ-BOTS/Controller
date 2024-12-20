@@ -34,7 +34,7 @@ import { fetch_local_bot_data } from '@/Backend/API/Commands/File System/fetch_l
 import { fetchDiscordBotInfo } from '@/Backend/API/Fetch/Discord/FetchBot';
 import { toggle_intent } from '@/Backend/API/Commands/File System/toggle_intent';
 import { delete_plugin } from '@/Backend/API/Commands/File System/delete_plugin';
-// import { install_plugin } from '@/Backend/API/Commands/File System/install_plugin'; // Make sure to import the install_plugin function
+import { install_plugin } from '@/Backend/API/Commands/File System/install_plugin';
 
 // Types
 import { LocalBotData } from '@/Backend/Types/LocalBotData';
@@ -61,6 +61,7 @@ const Edit = () => {
   const [intents, setIntents] = useState<Record<string, boolean>>({});
   const [inviteLink, setInviteLink] = useState<string>('');
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
+  const [selectedPlugin, setSelectedPlugin] = useState<string>('');
 
   // Fetch Local Bot Data
   const fetchBotData = async () => {
@@ -157,6 +158,16 @@ const Edit = () => {
   };
 
   // Handle Plugin Installation
+  const handleInstallPlugin = async (name: string) => {
+    const success = await install_plugin(name, selectedPlugin);
+    if (success) {
+      fetchBotData();
+      addNotification(`Installed ${selectedPlugin as string}`, 'success');
+      setSelectedPlugin('');
+    } else {
+      addNotification(`Unable To Install ${selectedPlugin as string}`, 'error');
+    }
+  };
 
   // Handle permission toggle using checkboxes
   const handlePermissionToggle = (permissionId: string) => {
@@ -325,8 +336,19 @@ const Edit = () => {
           <div className="space-y-4 mt-4">
             {/* Install Plugin Input and Button */}
             <div className="flex items-center space-x-4">
-              <Input className="" />
-              <Button className="flex items-center space-x-2">
+              <Input
+                placeholder="Plugin Name"
+                value={selectedPlugin}
+                onChange={(e) => {
+                  setSelectedPlugin(e.target.value);
+                }}
+              />
+              <Button
+                className="flex items-center space-x-2"
+                onClick={() => {
+                  handleInstallPlugin(name as string);
+                }}
+              >
                 <Plus className="w-5 h-5" />
                 <span>Install Plugin</span>
               </Button>

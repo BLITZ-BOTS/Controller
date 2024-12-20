@@ -17,8 +17,6 @@ const Notification = ({ message, type }: NotificationProps) => {
         ? 'success'
         : 'destructive';
 
-  console.log(alertVariant);
-
   return (
     <motion.div
       className="fixed bottom-[50px] right-0 m-4 w-80"
