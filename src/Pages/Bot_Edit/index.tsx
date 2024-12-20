@@ -10,8 +10,9 @@ import {
   Pencil,
   Trash2,
   Copy,
-  Plus, // Add this import for the 'Install Plugin' icon
+  Plus,
 } from 'lucide-react';
+import { debounce } from 'lodash';
 
 // Components
 import { useNotification } from '../../Backend/Hooks/NotificationContext';
@@ -35,6 +36,7 @@ import { fetchDiscordBotInfo } from '@/Backend/API/Fetch/Discord/FetchBot';
 import { toggle_intent } from '@/Backend/API/Commands/File System/toggle_intent';
 import { delete_plugin } from '@/Backend/API/Commands/File System/delete_plugin';
 import { install_plugin } from '@/Backend/API/Commands/File System/install_plugin';
+import { set_token } from '@/Backend/API/Commands/File System/set_token';
 
 // Types
 import { LocalBotData } from '@/Backend/Types/LocalBotData';
@@ -62,6 +64,7 @@ const Edit = () => {
   const [inviteLink, setInviteLink] = useState<string>('');
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
   const [selectedPlugin, setSelectedPlugin] = useState<string>('');
+  const [token, setToken] = useState<string>('');
 
   // Fetch Local Bot Data
   const fetchBotData = async () => {
@@ -95,6 +98,7 @@ const Edit = () => {
   const fetchDiscordData = async () => {
     if (botData && botData.token) {
       try {
+        setToken(botData.token);
         const data = await fetchDiscordBotInfo(botData.token);
         setDiscordBotData(data);
       } catch (error) {
@@ -183,6 +187,26 @@ const Edit = () => {
   // Handle Copy Invite
   const copyInviteLink = () => {
     navigator.clipboard.writeText(inviteLink);
+  };
+
+  // Handle Change Token
+  const debouncedTokenChange = debounce(async (newToken: string) => {
+    if (newToken === token) return;
+    try {
+      const success = await set_token(name as string, newToken);
+      if (success) {
+        addNotification('Token updated successfully', 'success');
+        fetchBotData();
+      }
+    } catch (error) {
+      addNotification('Error updating token', 'error');
+    }
+  }, 1000);
+
+  const handleTokenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newToken = e.target.value;
+    setToken(newToken);
+    debouncedTokenChange(newToken);
   };
 
   // Generate the invite link
@@ -283,7 +307,8 @@ const Edit = () => {
         <div className="flex space-x-4 items-center">
           <Input
             type={isTokenVisible ? 'text' : 'password'}
-            value={botData?.token}
+            onChange={handleTokenChange}
+            value={token}
             disabled={!isTokenVisible}
             className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:border-[#FF30A0]"
             placeholder="Enter new token"

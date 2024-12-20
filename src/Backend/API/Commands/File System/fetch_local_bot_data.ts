@@ -6,11 +6,11 @@ import * as yaml from 'js-yaml';
 // Functions
 
 // Types
-import { LocalBotData } from '../../../Types/LocalBotData';
+import { LocalBotData } from '@/Backend/Types/LocalBotData';
 import {
   InstalledPlugin,
   InstalledPluginMetadata,
-} from '../../../Types/InstalledPlugin';
+} from '@/Backend/Types/InstalledPlugin';
 
 export async function fetch_local_bot_data(name: string) {
   const appsDirectory = await appLocalDataDir();

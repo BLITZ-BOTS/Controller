@@ -6,7 +6,7 @@ import { appLocalDataDir, join } from '@tauri-apps/api/path';
 import { create_bots_directory } from './create_bots_directory';
 
 // Types
-import { Bot } from '../../../Types/Responses/Bot.ts';
+import { Bot } from '@/Backend/Types/Responses/Bot.ts';
 
 export async function fetch_user_bots() {
   try {
