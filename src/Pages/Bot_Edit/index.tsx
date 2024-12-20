@@ -9,6 +9,14 @@ import { useNotification } from '../../Backend/Hooks/NotificationContext';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
 import { Skeleton } from '@/Components/ui/skeleton';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/Components/ui/breadcrumb';
 
 // Backend Functions
 import { fetch_local_bot_data } from '../../Backend/API/Commands/File System/fetch_local_bot_data';
@@ -108,6 +116,29 @@ const Edit = () => {
         <ChevronLeft className="w-5 h-5 mr-2" />
         <span>Back</span>
       </Button>
+
+      {/* Page Breadcrums */}
+      <div className="mb-[30px]">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Bots</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            {discordBotData ? (
+              <BreadcrumbItem>
+                {discordBotData ? (
+                  discordBotData.username
+                ) : (
+                  <Skeleton className="w-24 h-6 rounded-md" />
+                )}
+              </BreadcrumbItem>
+            ) : (
+              <Skeleton className="w-24 h-6 rounded-md" />
+            )}
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
 
       {/* Bot Info */}
       <motion.div
