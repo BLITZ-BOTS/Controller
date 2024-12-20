@@ -31,6 +31,10 @@ body {
     --accent-foreground: 0 0% 9%;
     --destructive: 0 67% 39%;
     --destructive-foreground: 0 67% 39%;
+    --warning: 48 93% 47%;
+    --warning-foreground: 48 93% 47%;
+    --success: 90 85% 35%;
+    --success-foreground: 90 85% 35%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;

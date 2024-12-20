@@ -25,7 +25,13 @@ const Notification = ({ message, type }: NotificationProps) => {
       initial={{ x: '100%' }}
       animate={{ x: 0 }}
       exit={{ x: '100%' }}
-      transition={{ type: 'spring', stiffness: 300 }}
+      transition={{
+        type: 'spring',
+        stiffness: 300,
+        restSpeed: 1,
+        damping: 25,
+        duration: 0.3,
+      }}
     >
       <Alert variant={alertVariant || 'default'}>
         <AlertTitle>

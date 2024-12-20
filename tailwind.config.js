@@ -8,8 +8,6 @@ export default {
         lato: ['Lato', 'serif'],
       },
       colors: {
-        'blitz-pink': '#FF30A0',
-        'blitz-red': '#FF3D3D',
         background: 'hsl(var(--background))',
         'secondary-background': '#272727',
         textPrimary: '#ffffff',
@@ -41,6 +39,14 @@ export default {
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
+        },
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
+          foreground: 'hsl(var(--warning-foreground))',
+        },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
