@@ -38,7 +38,8 @@
   },
   "plugins": {
     "updater": {
-      "endpoints": [""]
+      "endpoints": ["https://raw.githubusercontent.com/BLITZ-BOTS/Controller-rewrite/refs/heads/main/latest.json"],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDk1NkUxOTIxNThCRjY1NwpSV1JYOW9zVmt1RldDWFFCR2dSbERnc2hVV2xPcXVKS2h3UU4vb1d5T21KdmxJeEJmY1dTSTU5Tgo="
     }
   }
 }
