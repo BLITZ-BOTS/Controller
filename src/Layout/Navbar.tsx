@@ -11,7 +11,7 @@ export default function Navbar() {
 
   const navItems = [
     { name: 'Home', icon: Home, href: '/' },
-    { name: 'Plugins', icon: Puzzle, href: '/plugins' },
+    { name: 'Plugins', icon: Puzzle, href: 'https://blitz-bots.com' },
     { name: 'Documentation', icon: Book, href: 'https://docs.blitz-bots.com' },
   ];
 
@@ -103,6 +103,7 @@ export default function Navbar() {
             <a
               key={item.name}
               href={item.href}
+              target="_blank"
               className="flex items-center space-x-3 text-gray-300 hover:text-white py-3 px-4 rounded-md hover:bg-secondary/10 transition-colors"
               onClick={() => setIsOpen(false)}
             >
