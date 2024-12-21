@@ -44,7 +44,7 @@ export async function create_bot(token: string, name: string) {
       Deno.exit(1);
     }
     
-    const bot = new Bot({ token: token, intents: intentsArray, pluginsDir: ""});
+    const bot = new Bot({ token: token, intents: intentsArray });
     
     try {
       await bot.start();
