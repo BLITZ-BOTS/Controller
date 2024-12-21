@@ -1,19 +1,23 @@
 {
   "version": "0.0.1",
-  "notes": "",
-  "pub_date": "",
+  "notes": "First Release",
+  "pub_date": "2024-12-21T13:37:58.914Z",
   "platforms": {
-    "linux-x86_64": {
-      "signature": "",
-      "url": ""
-    },
-    "windows-x86_64": {
-      "signature": "",
-      "url": ""
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSWDlvc1ZrdUZXQ2VsMG8rQ2crVFF4U2dvVlNsdjQ1eWtyU3VyZldrcHFxcmNDeGE4d2d5UmxaRHZ3cStFRTZVSlEwRE4zdzdsQXFvSU8ySmF0QjQ1cnNWMWRaeVRLN1FBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0Nzg4MDAxCWZpbGU6QmxpdHogQ29udHJvbGxlci5hcHAudGFyLmd6CmdCaXdBdHZkOUlYVWdSUC9wWXBKdlZsK3ZvdXo4Sy9kSmVaYjFNaTRLMWw1K2VEdXZtZk5Da0pTM3lRNW5FNXVHeTJKT3NCNytDVEFJNldwcU5jNER3PT0K",
+      "url": "https://github.com/BLITZ-BOTS/Controller/releases/download/app-v0.0.1/Blitz.Controller_aarch64.app.tar.gz"
     },
     "darwin-x86_64": {
-      "signature": "",
-      "url": ""
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSWDlvc1ZrdUZXQ1FVa051UTNkblJxTDZ5UmxjcGYrVyszQStRc2JDQXVWK3JLWGN1N21UWktFcVIwbnFyZUx4RGcrQ3l3TmRoQWkwRHNNQzJ0U2xHSGpDRG9ESW5NYkFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0Nzg4MDEwCWZpbGU6QmxpdHogQ29udHJvbGxlci5hcHAudGFyLmd6ClNNd1VuYWpWcUJEL1B0emE4TXpHRk5seVNMSFQvS0lXVjd0bFU4eVgzKzI5d1E4SWo1VzZtYW1uZWtQclVDNitRQVEwNzR5MldnR3dlYUxrQjVuREJnPT0K",
+      "url": "https://github.com/BLITZ-BOTS/Controller/releases/download/app-v0.0.1/Blitz.Controller_x64.app.tar.gz"
+    },
+    "linux-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSWDlvc1ZrdUZXQ1JNMjZ2TXlNS2YwRlNVMHJqYk91TElzNFpOQzlxcjd6cmlWNktsN1JKL2VFRzUrVS9HNHhWTEJZTHJzZ2xEMXFyTHowVkp6OUxNRWljRkZLbmM3WVFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0Nzg4MjQyCWZpbGU6QmxpdHogQ29udHJvbGxlcl8wLjAuMV9hbWQ2NC5BcHBJbWFnZQp1T2pkcUtJbVNna2xFWnhSMVcyWExqa3N6eXJRUTY3TExSeTZBT2NsNFpTTHR5dlJoOFRZNWtISDMxMFVJMFo4WitsK3h0a0NKR2FlT0NGRnZBd2hCdz09Cg==",
+      "url": "https://github.com/BLITZ-BOTS/Controller/releases/download/app-v0.0.1/Blitz.Controller_0.0.1_amd64.AppImage"
+    },
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSWDlvc1ZrdUZXQ2FtRTlZWW9hY1dPTDBSSkZiRnZZbHFORXdNOE5DWklQTUJDd1Q0VW1URlpqUmtmS3VRSVJDakkzOFMySEpqaFJUdDZWdlVxS3FvcmF1NVAySnI2T1FFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0Nzg4Mjc2CWZpbGU6QmxpdHogQ29udHJvbGxlcl8wLjAuMV94NjRfZW4tVVMubXNpClJQdk5BNEJuRC96ekJtVWVTaytXcTJ4eEpvYy9YQmZPV1JkQXpaNzExNjJUSTAxNGRuNThOZEV3UXRXNkFDdVFCVFZBOXRoVnMrNjRmZWh3VytoRUNRPT0K",
+      "url": "https://github.com/BLITZ-BOTS/Controller/releases/download/app-v0.0.1/Blitz.Controller_0.0.1_x64_en-US.msi"
     }
   }
 }
