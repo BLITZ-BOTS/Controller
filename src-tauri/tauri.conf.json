@@ -39,7 +39,7 @@
   },
   "plugins": {
     "updater": {
-      "endpoints": "https://github.com/BLITZ-BOTS/Controller-rewrite/releases/latest.json",
+      "endpoints": "https://github.com/BLITZ-BOTS/Controller/releases/latest.json",
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDk1NkUxOTIxNThCRjY1NwpSV1JYOW9zVmt1RldDWFFCR2dSbERnc2hVV2xPcXVKS2h3UU4vb1d5T21KdmxJeEJmY1dTSTU5Tgo=",
       "windows": {
         "installMode": "passive"
