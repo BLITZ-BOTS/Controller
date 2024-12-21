@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import '@/App.css';
 import { check } from '@tauri-apps/plugin-updater';
 import { relaunch } from '@tauri-apps/plugin-process';
-import { getVersion } from '@tauri-apps/api/app';
 
 // Components
 import Layout from '@/Layout';
@@ -18,39 +17,38 @@ import { ModalProvider } from '@/Backend/Hooks/Modal/ModalContext';
 
 function App() {
   useEffect(() => {
-    const checkForUpdate = async () => {
-      try {
-        const currentVersion = await getVersion();
-        console.log('Current version:', currentVersion);
+    async function CheckUpdate() {
+      const update = await check();
+      if (update) {
+        console.log(
+          `found update ${update.version} from ${update.date} with notes ${update.body}`
+        );
+        let downloaded = 0;
+        let contentLength = 0;
+        // alternatively we could also call update.download() and update.install() separately
+        await update.downloadAndInstall((event) => {
+          switch (event.event) {
+            case 'Started':
+              contentLength = event.data.contentLength as number;
+              console.log(
+                `started downloading ${event.data.contentLength} bytes`
+              );
+              break;
+            case 'Progress':
+              downloaded += event.data.chunkLength;
+              console.log(`downloaded ${downloaded} from ${contentLength}`);
+              break;
+            case 'Finished':
+              console.log('download finished');
+              break;
+          }
+        });
 
-        const update = await check();
-        console.log('Update check result:', update);
-
-        if (!update) {
-          console.log('No update available');
-          return;
-        }
-
-        console.log(`Update found: ${update.version}`);
-
-        try {
-          await update.downloadAndInstall((event) => {
-            console.log(
-              `Download progress: ${event.data.chunkLength} / ${event.data.contentLength}`
-            );
-          });
-
-          console.log('Update installed, relaunching...');
-          await relaunch();
-        } catch (error) {
-          console.error('Download/Install error:', error);
-        }
-      } catch (error) {
-        console.error('Update error:', error);
+        console.log('update installed');
+        await relaunch();
       }
-    };
-
-    checkForUpdate();
+    }
+    CheckUpdate();
   }, []);
 
   return (
