@@ -1,5 +1,5 @@
 // Packages
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X } from 'lucide-react';
 
 // Backend Functions

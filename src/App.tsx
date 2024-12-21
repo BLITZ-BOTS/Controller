@@ -1,11 +1,9 @@
 // Packages
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useEffect } from 'react';
 import '@/App.css';
 
 // Components
 import Layout from '@/Layout';
-import { checkForAppUpdates } from '@/Components/Modals/AppUpdate';
 
 // Pages
 import Home from '@/Pages/Home';
@@ -16,9 +14,6 @@ import { NotificationProvider } from '@/Backend/Hooks/NotificationContext';
 import { ModalProvider } from '@/Backend/Hooks/Modal/ModalContext';
 
 function App() {
-  useEffect(() => {
-    checkForAppUpdates(false);
-  }, []);
   return (
     <Router>
       <NotificationProvider>

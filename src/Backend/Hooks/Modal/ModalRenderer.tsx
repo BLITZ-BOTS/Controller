@@ -1,4 +1,3 @@
-import React from 'react';
 import CreateBotModal from '../../../Components/Modals/CreateBot';
 import DeleteBotModal from '../../../Components/Modals/DeleteBot';
 
