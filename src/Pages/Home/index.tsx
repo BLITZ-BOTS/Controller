@@ -10,13 +10,13 @@ import { Bot } from '@/Backend/Types/Responses/Bot';
 
 // Components
 import BotCard from './Components/BotCard';
-import { useNotification } from '@/Backend/Hooks/NotificationContext';
 import { useModal } from '@/Backend/Hooks/Modal/ModalContext';
 import { Button } from '@/Components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 const Home = () => {
   const [bots, setBots] = useState<Bot[]>([]);
-  const { addNotification } = useNotification();
+  const { toast } = useToast();
   const { showModal } = useModal();
 
   // Load Bots Function
@@ -26,7 +26,11 @@ const Home = () => {
       setBots(returnedBots);
     } catch (error) {
       console.error('Error fetching bots:', error);
-      addNotification('Error Fetching Bots', 'error');
+      toast({
+        title: 'Error',
+        description: `Unable to fetch bots`,
+        variant: 'destructive',
+      });
     }
   };
 
@@ -41,9 +45,17 @@ const Home = () => {
   const deleteBotBTNHandler = async (bot: Bot) => {
     showModal('delete_bot', { bot }, async (data) => {
       if (data?.error) {
-        addNotification(`Error Deleting ${bot.name}`, 'error');
+        toast({
+          title: 'Error',
+          description: `Unable to delete ${bot.name}`,
+          variant: 'destructive',
+        });
       } else {
-        addNotification(`Deleted ${bot.name}`, 'success');
+        toast({
+          title: 'Success',
+          description: `Deleted ${bot.name}`,
+          variant: 'success',
+        });
         loadBots();
       }
     });
@@ -53,9 +65,17 @@ const Home = () => {
   const createBotBTNHandler = async () => {
     showModal('create_bot', {}, (data) => {
       if (data?.error) {
-        addNotification('Error Creating Bot', 'error');
+        toast({
+          title: 'Error',
+          description: `Unable to create bot`,
+          variant: 'destructive',
+        });
       } else {
-        addNotification('Created Bot', 'success');
+        toast({
+          title: 'Success',
+          description: `Created Bot`,
+          variant: 'success',
+        });
         loadBots();
       }
     });

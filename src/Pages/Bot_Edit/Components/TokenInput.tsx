@@ -7,7 +7,7 @@ import { debounce } from 'lodash';
 // Components
 import { Input } from '@/Components/ui/input';
 import { Button } from '@/Components/ui/button';
-import { useNotification } from '@/Backend/Hooks/NotificationContext';
+import { useToast } from '@/hooks/use-toast';
 
 // Backend
 import { set_token } from '@/Backend/API/Commands/File System/set_token';
@@ -21,7 +21,7 @@ interface TokenInputProps {
 export function TokenInput({ name, token, onTokenChange }: TokenInputProps) {
   const [isTokenVisible, setIsTokenVisible] = useState<boolean>(false);
   const [currentToken, setCurrentToken] = useState<string>(token);
-  const { addNotification } = useNotification();
+  const { toast } = useToast();
 
   const toggleTokenVisibility = () => setIsTokenVisible((prev) => !prev);
 
@@ -30,11 +30,19 @@ export function TokenInput({ name, token, onTokenChange }: TokenInputProps) {
     try {
       const success = await set_token(name, newToken);
       if (success) {
-        addNotification('Token updated successfully', 'success');
+        toast({
+          title: 'Success',
+          description: 'Token Updated',
+          variant: 'success',
+        });
         onTokenChange?.();
       }
     } catch (error) {
-      addNotification('Error updating token', 'error');
+      toast({
+        title: 'Error',
+        description: `Unable to update token`,
+        variant: 'destructive',
+      });
     }
   }, 1000);
 

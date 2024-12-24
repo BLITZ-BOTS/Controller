@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 // Components
 import { Switch } from '@/Components/ui/switch';
-import { useNotification } from '@/Backend/Hooks/NotificationContext';
+import { useToast } from '@/hooks/use-toast';
 
 // Types
 import { linkMap } from '@/Backend/Types/Intents';
@@ -17,7 +17,7 @@ interface BotIntentsProps {
 }
 
 export function BotIntents({ name, passedIntents }: BotIntentsProps) {
-  const { addNotification } = useNotification();
+  const { toast } = useToast();
   const [intents, setIntents] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -32,10 +32,19 @@ export function BotIntents({ name, passedIntents }: BotIntentsProps) {
           ...prevIntents,
           [intentKey]: !prevIntents[intentKey],
         }));
-        addNotification('Updated Intents', 'success');
+
+        toast({
+          title: 'Success',
+          description: 'Updated Intents',
+          variant: 'success',
+        });
       }
     } catch (error) {
-      addNotification('Error toggling intent', 'error');
+      toast({
+        title: 'Error',
+        description: 'Error Updating Intents',
+        variant: 'destructive',
+      });
     }
   };
 

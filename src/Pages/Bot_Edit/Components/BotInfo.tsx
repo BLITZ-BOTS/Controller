@@ -7,7 +7,7 @@ import { DiscordBotData } from '@/Backend/Types/DiscordBotData';
 
 // Components
 import { Skeleton } from '@/Components/ui/skeleton';
-import { useNotification } from '@/Backend/Hooks/NotificationContext';
+import { useToast } from '@/hooks/use-toast';
 
 // Backend
 import { fetchDiscordBotInfo } from '@/Backend/API/Fetch/Discord/FetchBot';
@@ -16,7 +16,8 @@ export function BotInfo({ token }: { token: string }) {
   const [discordBotData, setDiscordBotData] = useState<DiscordBotData | null>(
     null
   );
-  const { addNotification } = useNotification();
+
+  const { toast } = useToast();
 
   const fetchDiscordData = async () => {
     if (token) {
@@ -24,7 +25,7 @@ export function BotInfo({ token }: { token: string }) {
         const data = await fetchDiscordBotInfo(token);
         setDiscordBotData(data);
       } catch (error) {
-        addNotification('Error Fetching Discord Bot Data', 'error');
+        // do nothing
       }
     }
   };

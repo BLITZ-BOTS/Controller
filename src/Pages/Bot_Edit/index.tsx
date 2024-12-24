@@ -4,7 +4,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 
 // Components
-import { useNotification } from '../../Backend/Hooks/NotificationContext';
 import { Button } from '@/Components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/Components/ui/tabs';
 import { BotInfo } from './Components/BotInfo';
@@ -13,6 +12,7 @@ import { BotIntents } from './Components/BotIntents';
 import { InstalledPlugins } from './Components/InstalledPlugins';
 import { BotPath } from './Components/BotPath';
 import { BotBreadcrum } from './Components/BreadCrum';
+import { useToast } from '@/hooks/use-toast';
 
 // Backend Functions
 import { fetch_local_bot_data } from '@/Backend/API/Commands/File System/fetch_local_bot_data';
@@ -25,8 +25,8 @@ import { linkMap } from '@/Backend/Types/Intents';
 
 const Edit = () => {
   // Hooks
-  const { addNotification } = useNotification();
-  const { name } = useParams<{ name: string }>();
+  const { toast } = useToast();
+  const { name = '' } = useParams<{ name: string }>();
   const navigate = useNavigate();
 
   // States
@@ -38,7 +38,7 @@ const Edit = () => {
   // Fetch Local Bot Data
   const fetchBotData = async () => {
     try {
-      const fetchedData = await fetch_local_bot_data(name as string);
+      const fetchedData = await fetch_local_bot_data(name);
       setBotData((prevData) => {
         if (JSON.stringify(prevData) !== JSON.stringify(fetchedData)) {
           if (fetchedData) {
@@ -59,7 +59,11 @@ const Edit = () => {
       });
       setIntents(initialIntents);
     } catch (error) {
-      addNotification('Error Fetching Bot Data', 'error');
+      toast({
+        title: 'Error',
+        description: 'Unable to fetch bot data from discord',
+        variant: 'destructive',
+      });
     } finally {
       setLoading(false);
     }
@@ -87,17 +91,13 @@ const Edit = () => {
         <span>Back</span>
       </Button>
 
-      <BotBreadcrum name={name as string} />
+      <BotBreadcrum name={name} />
 
       {/* Bot Info */}
       <BotInfo token={botData?.token as string} />
 
       {/* Token Input */}
-      <TokenInput
-        token={token}
-        name={name as string}
-        onTokenChange={fetchBotData}
-      />
+      <TokenInput token={token} name={name} onTokenChange={fetchBotData} />
 
       {/* Settings Tabs */}
       <Tabs defaultValue="intents" className="mt-[50px] pb-[30px]">
@@ -109,13 +109,13 @@ const Edit = () => {
 
         {/* Intents List */}
         <TabsContent value="intents">
-          <BotIntents passedIntents={intents} name={name as string} />
+          <BotIntents passedIntents={intents} name={name} />
         </TabsContent>
 
         {/* Installed Plugins */}
         <TabsContent value="installed-plugins">
           <InstalledPlugins
-            name={name as string}
+            name={name}
             plugins={botData?.installed_plugins as []}
             onChange={fetchBotData}
           />
@@ -123,7 +123,7 @@ const Edit = () => {
 
         {/* Other Tab */}
         <TabsContent value="other">
-          <BotPath name={name as string} />
+          <BotPath name={name} />
         </TabsContent>
       </Tabs>
     </div>

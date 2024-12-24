@@ -5,7 +5,7 @@ import { useState } from 'react';
 // Components
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
-import { useNotification } from '@/Backend/Hooks/NotificationContext';
+import { useToast } from '@/hooks/use-toast';
 
 // Types
 import { InstalledPlugin } from '@/Backend/Types/InstalledPlugin';
@@ -24,32 +24,57 @@ export function InstalledPlugins({
   onChange: () => void;
 }) {
   const [selectedPlugin, setSelectedPlugin] = useState<string>('');
-  const { addNotification } = useNotification();
+  const { toast } = useToast();
 
   const handleDeletePlugin = async (name: string, plugin: string) => {
     try {
       const success = await delete_plugin(name, plugin);
       if (success) {
-        addNotification(`Uninstalled ${plugin}`, 'success');
+        toast({
+          title: 'Success',
+          description: `Deleted ${plugin}`,
+          variant: 'success',
+        });
         if (plugins) {
           onChange?.();
         }
       } else {
-        addNotification(`Unable to uninstall ${plugin}`, 'error');
+        toast({
+          title: 'Error',
+          description: `Unable to uninstall ${plugin}`,
+          variant: 'destructive',
+        });
       }
     } catch (error) {
-      addNotification(`Unable to uninstall ${plugin}`, 'error');
+      toast({
+        title: 'Error',
+        description: `Unable to uninstall ${plugin}`,
+        variant: 'destructive',
+      });
     }
   };
 
   const handleInstallPlugin = async (name: string) => {
+    toast({
+      title: 'Loading',
+      description: `Installing ${selectedPlugin as string}...`,
+      variant: 'default',
+    });
     const success = await install_plugin(name, selectedPlugin);
     if (success) {
       onChange?.();
-      addNotification(`Installed ${selectedPlugin as string}`, 'success');
+      toast({
+        title: 'Success',
+        description: `Installed ${selectedPlugin as string}`,
+        variant: 'success',
+      });
       setSelectedPlugin('');
     } else {
-      addNotification(`Unable To Install ${selectedPlugin as string}`, 'error');
+      toast({
+        title: 'Error',
+        description: `Unable to uninstall ${selectedPlugin as string}`,
+        variant: 'destructive',
+      });
     }
   };
 

@@ -14,7 +14,6 @@ import Edit from '@/Pages/Bot_Edit';
 import { UpdateOverlay } from './Components/Updater';
 
 // Contexts
-import { NotificationProvider } from '@/Backend/Hooks/NotificationContext';
 import { ModalProvider } from '@/Backend/Hooks/Modal/ModalContext';
 
 function App() {
@@ -47,23 +46,21 @@ function App() {
 
   return (
     <Router>
-      <NotificationProvider>
-        <ModalProvider>
-          {showUpdateOverlay && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-              <UpdateOverlay />
-            </div>
-          )}
-          <div className={showUpdateOverlay ? 'pointer-events-none' : ''}>
-            <Routes>
-              <Route element={<Layout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/bots/edit/:name" element={<Edit />} />
-              </Route>
-            </Routes>
+      <ModalProvider>
+        {showUpdateOverlay && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <UpdateOverlay />
           </div>
-        </ModalProvider>
-      </NotificationProvider>
+        )}
+        <div className={showUpdateOverlay ? 'pointer-events-none' : ''}>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/bots/edit/:name" element={<Edit />} />
+            </Route>
+          </Routes>
+        </div>
+      </ModalProvider>
     </Router>
   );
 }

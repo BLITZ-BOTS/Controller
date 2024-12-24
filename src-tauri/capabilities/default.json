@@ -33,7 +33,56 @@
     "dialog:allow-message",
     "updater:default",
     "updater:allow-check",
-    "updater:allow-download-and-install"
-    
+    "updater:allow-download-and-install",
+    {
+      "identifier": "shell:allow-execute",
+      "allow": [
+        {
+          "name": "git-check",
+          "cmd": "git",
+          "args": ["version"]
+        },
+        {
+          "name": "git-init",
+          "cmd": "git",
+          "args": ["init"]
+        },
+        {
+          "name": "git-add",
+          "cmd": "git",
+          "args": ["add", "."]
+        },
+        {
+          "name": "git-commit",
+          "cmd": "git",
+          "args": ["commit", "-m", "Initial commit"]
+        },
+        {
+          "name": "git-push",
+          "cmd": "git",
+          "args": ["push", "-u", "origin", "main"]
+        },
+        {
+          "name": "git-remote-get-url",
+          "cmd": "git",
+          "args": ["remote", "get-url", "origin"]
+        },
+        {
+          "name": "git-remote-set-url",
+          "cmd": "git",
+          "args": ["remote", "set-url", "origin"]
+        },
+        {
+          "name": "git-status",
+          "cmd": "git",
+          "args": ["status"]
+        },
+        {
+          "name": "git-pull",
+          "cmd": "git",
+          "args": ["pull"]
+        }
+      ]
+    }
   ]
 }
