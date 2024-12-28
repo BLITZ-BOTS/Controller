@@ -1,18 +1,23 @@
 // Packages
 import { Plus, Pencil, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { debounce } from 'lodash';
 
 // Components
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 
-// Types
-import { InstalledPlugin } from '@/Backend/Types/InstalledPlugin';
-
 // Backend
+import { InstalledPlugin } from '@/Backend/Types/InstalledPlugin';
 import { delete_plugin } from '@/Backend/API/Commands/File System/delete_plugin';
 import { install_plugin } from '@/Backend/API/Commands/File System/install_plugin';
+
+// Types
+import { PluginSuggestion } from '@/Backend/Types/PluginSuggestion';
+interface ApiResponse {
+  data: PluginSuggestion[];
+}
 
 export function InstalledPlugins({
   name,
@@ -24,7 +29,66 @@ export function InstalledPlugins({
   onChange: () => void;
 }) {
   const [selectedPlugin, setSelectedPlugin] = useState<string>('');
+  const [suggestions, setSuggestions] = useState<PluginSuggestion[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const { toast } = useToast();
+  const suggestionRef = useRef<HTMLDivElement>(null);
+
+  const fetchSuggestions = async (query: string) => {
+    if (!query.trim()) {
+      setSuggestions([]);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.blitz-bots.com/plugins/search?query=${encodeURIComponent(query)}&per_page=4`
+      );
+      const { data } = (await response.json()) as ApiResponse;
+      setSuggestions(data);
+      setShowSuggestions(true);
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      setSuggestions([]);
+    }
+  };
+
+  const debouncedFetch = useCallback(
+    debounce((query: string) => fetchSuggestions(query), 300),
+    []
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedFetch.cancel();
+    };
+  }, [debouncedFetch]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        suggestionRef.current &&
+        !suggestionRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSelectedPlugin(value);
+    debouncedFetch(value);
+  };
+
+  const handleSuggestionClick = (suggestion: PluginSuggestion) => {
+    setSelectedPlugin(suggestion.name.toLowerCase());
+    setSuggestions([]);
+    setShowSuggestions(false);
+  };
 
   const handleDeletePlugin = async (name: string, plugin: string) => {
     try {
@@ -57,7 +121,7 @@ export function InstalledPlugins({
   const handleInstallPlugin = async (name: string) => {
     toast({
       title: 'Loading',
-      description: `Installing ${selectedPlugin as string}...`,
+      description: `Installing ${selectedPlugin}...`,
       variant: 'default',
     });
     const success = await install_plugin(name, selectedPlugin);
@@ -65,14 +129,14 @@ export function InstalledPlugins({
       onChange?.();
       toast({
         title: 'Success',
-        description: `Installed ${selectedPlugin as string}`,
+        description: `Installed ${selectedPlugin}`,
         variant: 'success',
       });
       setSelectedPlugin('');
     } else {
       toast({
         title: 'Error',
-        description: `Unable to uninstall ${selectedPlugin as string}`,
+        description: `Unable to uninstall ${selectedPlugin}`,
         variant: 'destructive',
       });
     }
@@ -81,19 +145,43 @@ export function InstalledPlugins({
   return (
     <>
       <div className="space-y-4 mt-4">
-        {/* Install Plugin Input and Button */}
-        <div className="flex items-center space-x-4">
-          <Input
-            placeholder="Plugin Name"
-            value={selectedPlugin}
-            onChange={(e) => {
-              setSelectedPlugin(e.target.value);
-            }}
-          />
+        <div className="flex items-center space-x-4 relative">
+          <div className="flex-1 relative">
+            <Input
+              placeholder="Plugin Name"
+              value={selectedPlugin}
+              onChange={handleInputChange}
+              onFocus={() => selectedPlugin && setShowSuggestions(true)}
+            />
+            {showSuggestions && suggestions.length > 0 && (
+              <div
+                ref={suggestionRef}
+                className="absolute z-10 w-full mt-1 bg-black border border-primary/20 rounded-md shadow-lg"
+              >
+                {suggestions.map((suggestion, index) => (
+                  <div
+                    key={index}
+                    className="p-2 hover:bg-primary/10 cursor-pointer"
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    <div className="font-medium">{suggestion.name}</div>
+                    <div className="text-xs text-gray-500">
+                      {suggestion.description}
+                    </div>
+                    {suggestion.versions.length > 0 && (
+                      <div className="text-xs text-primary mt-1">
+                        Latest: v{suggestion.versions[0]}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           <Button
             className="flex items-center space-x-2"
             onClick={() => {
-              handleInstallPlugin(name as string);
+              handleInstallPlugin(name);
             }}
           >
             <Plus className="w-5 h-5" />
@@ -101,7 +189,6 @@ export function InstalledPlugins({
           </Button>
         </div>
 
-        {/* Installed Plugins List */}
         {plugins.length ? (
           plugins.map((plugin: InstalledPlugin, index) => (
             <div
@@ -135,10 +222,7 @@ export function InstalledPlugins({
                   variant="ghost"
                   size="icon"
                   onClick={() =>
-                    handleDeletePlugin(
-                      name as string,
-                      plugin.metadata?.name as string
-                    )
+                    handleDeletePlugin(name, plugin.metadata?.name as string)
                   }
                 >
                   <Trash2 />
@@ -155,3 +239,5 @@ export function InstalledPlugins({
     </>
   );
 }
+
+export default InstalledPlugins;

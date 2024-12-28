@@ -25,7 +25,11 @@ export function BotInfo({ token }: { token: string }) {
         const data = await fetchDiscordBotInfo(token);
         setDiscordBotData(data);
       } catch (error) {
-        // do nothing
+        toast({
+          title: 'Error',
+          description: 'Unable to fetch bot data from Discord',
+          variant: 'destructive',
+        });
       }
     }
   };

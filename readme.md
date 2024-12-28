@@ -5,6 +5,7 @@
 ---
 
 ## 🚀 Features
+
 - **Create and Manage Bots**: Build and configure bots without extensive coding.
 - **Plugin Marketplace**: Install and customize plugins to expand functionality.
 - **Cross-Platform Support**: Available for Windows, macOS, and Linux.
@@ -15,6 +16,7 @@
 ## 📥 Installation
 
 1. **Download the Installer**:
+
    - Visit the [Releases Page](https://github.com/BLITZ-BOTS/Controller/releases/tag/app-v1.0.0).
    - Download the appropriate installer for your operating system:
      - **Windows**: `BlitzController-Setup-x.x.x.exe`
@@ -22,6 +24,7 @@
      - **Linux**: `BlitzController-x.x.x.AppImage`
 
 2. **Install the Application**:
+
    - **Windows**:
      - Run the downloaded `.exe` file.
      - Follow the setup instructions.
@@ -46,11 +49,13 @@
 ## 🖥️ Usage
 
 ### Creating a Bot
+
 1. Click **"New Bot"** in the dashboard.
 2. Follow the prompts to configure your bot's settings.
 3. Add plugins from the marketplace to extend functionality.
 
 ### Managing Plugins
+
 1. Navigate to the **Plugins** section.
 2. Browse the marketplace or upload your own plugin.
 3. Configure installed plugins as needed.
@@ -60,6 +65,7 @@
 ## 🤝 Contributing
 
 We welcome contributions from the community! To contribute:
+
 1. Fork this repository.
 2. Create a branch for your changes.
 3. Commit and push your changes to your fork.
@@ -69,12 +75,12 @@ We welcome contributions from the community! To contribute:
 
 ## ⚠️ Disclaimer
 
-**Controller** is currently in active development and may contain bugs or incomplete features. If you encounter any issues or have suggestions, please let us know by:  
-- Submitting an issue on our [GitHub Issues Page](https://github.com/BLITZ-BOTS/Controller/issues).  
-- Joining our [Discord Community](https://discord.blitz-bots.com) and reporting it there.  
+**Controller** is currently in active development and may contain bugs or incomplete features. If you encounter any issues or have suggestions, please let us know by:
+
+- Submitting an issue on our [GitHub Issues Page](https://github.com/BLITZ-BOTS/Controller/issues).
+- Joining our [Discord Community](https://discord.blitz-bots.com) and reporting it there.
 
 We appreciate your feedback as we continue to improve the application. Thank you for your understanding and support!
-
 
 ---
 
@@ -85,6 +91,7 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 ## 🌐 Connect With Us
+
 - **Website**: [blitz-bots.com](https://blitz-bots.com)
 - **Discord**: [Join our community](https://discord.blitz-bots.com)
 
