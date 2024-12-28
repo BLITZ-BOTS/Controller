@@ -214,7 +214,9 @@ export function InstalledPlugins({
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => console.log('test')}
+                  onClick={() =>
+                    (window.location.href = `/plugins/edit/${name}/${plugin.metadata?.name}`)
+                  }
                 >
                   <Pencil />
                 </Button>

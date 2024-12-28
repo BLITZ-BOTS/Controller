@@ -9,9 +9,10 @@ import Layout from '@/Layout';
 // Pages
 import Home from '@/Pages/Home';
 import Edit from '@/Pages/Bot_Edit';
+import Plugin_Config from '@/Pages/Plugin_Config';
 
 // Overlays
-import { UpdateOverlay } from './Components/Updater';
+import { UpdateOverlay } from '@/Components/Updater';
 
 // Contexts
 import { ModalProvider } from '@/Backend/Hooks/Modal/ModalContext';
@@ -57,6 +58,10 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
               <Route path="/bots/edit/:name" element={<Edit />} />
+              <Route
+                path="/plugins/edit/:bot/:name"
+                element={<Plugin_Config />}
+              />
             </Route>
           </Routes>
         </div>
