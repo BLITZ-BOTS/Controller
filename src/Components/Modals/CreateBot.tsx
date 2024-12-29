@@ -8,6 +8,13 @@ import { create_bot } from '@/Backend/API/Commands/File System/create_bot';
 // Components
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/Components/ui/select';
 
 interface CreateBotModalProps {
   onClose: () => void;
@@ -20,12 +27,13 @@ const CreateBotModal: React.FC<CreateBotModalProps> = ({
 }) => {
   const [name, setName] = useState('');
   const [token, setToken] = useState('');
+  const [runtime, setRuntime] = useState('Node.js');
 
   const handleCreate = async () => {
-    var create_try = false;
+    var create_try: boolean = false;
     try {
-      const create_attempt = await create_bot(token, name);
-      create_try = create_attempt;
+      const create_attempt = await create_bot(token, name, runtime);
+      create_try = create_attempt as boolean;
     } catch (error) {
       create_try = false;
     }
@@ -73,6 +81,24 @@ const CreateBotModal: React.FC<CreateBotModalProps> = ({
             onChange={(e) => setToken(e.target.value)}
             placeholder="Enter bot token"
           />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="runtime" className="block text-sm font-medium mb-2">
+            Runtime
+          </label>
+          <Select
+            onValueChange={(value) => setRuntime(value)}
+            defaultValue="Node.js"
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select runtime" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Node.js">Node.js</SelectItem>
+              <SelectItem value="Deno">Deno</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="flex justify-end space-x-3">

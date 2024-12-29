@@ -34,6 +34,13 @@
     "updater:default",
     "updater:allow-check",
     "updater:allow-download-and-install",
+    "fs:scope-localdata",
+    "fs:allow-localdata-read",
+    "fs:allow-localdata-write",
+    "fs:allow-download-read",
+    "fs:allow-download-write",
+    "fs:write-all",
+    "fs:allow-read",
     {
       "identifier": "shell:allow-execute",
       "allow": [
@@ -83,6 +90,14 @@
           "args": ["pull"]
         }
       ]
+    },
+    {
+      "identifier": "fs:scope",
+      "allow": [{ "path": "$APPDATA/bots/*/plugins"}]
+    },
+    {
+      "identifier": "fs:scope",
+      "allow": [{ "path": "$DOWNLOAD/*"}]
     }
   ]
 }
