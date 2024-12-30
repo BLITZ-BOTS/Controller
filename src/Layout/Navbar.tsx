@@ -1,9 +1,12 @@
 // Packages
-import { Book, Home, Menu, Puzzle, X } from 'lucide-react';
+import { Book, Home, Menu, Puzzle, X, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 // Components
 import { Button } from '@/Components/ui/button';
+
+// Functions
+import { githubLogin } from '@/Services/Auth/login';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -98,7 +101,7 @@ export default function Navbar() {
         </div>
 
         {/* Navigation Links */}
-        <div className="flex flex-col py-6 px-4 space-y-4">
+        <div className="flex flex-col py-6 px-4 space-y-4 flex-grow">
           {navItems.map((item) => (
             <a
               key={item.name}
@@ -111,6 +114,19 @@ export default function Navbar() {
               <span>{item.name}</span>
             </a>
           ))}
+        </div>
+
+        {/* User Section */}
+        <div className="mt-auto p-4 border-t border-white/10 bottom-0">
+          <div>
+            <a
+              onClick={githubLogin}
+              className="flex items-center space-x-3 text-gray-300 hover:text-white py-3 px-4 rounded-md hover:bg-secondary/10 transition-colors"
+            >
+              <User className="h-6 w-6 text-gray-300" />
+              <span className="text-gray-300">Log In</span>
+            </a>
+          </div>
         </div>
       </div>
 
