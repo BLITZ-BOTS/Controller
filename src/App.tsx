@@ -17,6 +17,11 @@ import { UpdateOverlay } from '@/Components/Updater';
 // Contexts
 import { ModalProvider } from '@/hooks/Modal/ModalContext';
 
+// Auth
+import { handleDeepLink } from '@/Services/Auth/deeplink';
+
+import { githubLogin } from '@/Services/Auth/login';
+
 function App() {
   const [showUpdateOverlay, setShowUpdateOverlay] = useState<boolean>(false);
 
@@ -43,6 +48,8 @@ function App() {
 
       checkForUpdates();
     }
+
+    handleDeepLink();
   }, []);
 
   return (
@@ -54,6 +61,9 @@ function App() {
           </div>
         )}
         <div className={showUpdateOverlay ? 'pointer-events-none' : ''}>
+          <button className="mt-[200px]" onClick={githubLogin}>
+            Login
+          </button>
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
