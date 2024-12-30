@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 
 // Backend Functions
-import { create_bot } from '@/Backend/API/Commands/File System/create_bot';
+import { create_bot } from '@/Services/Bot Manager/create';
 
 // Components
 import { Button } from '@/Components/ui/button';

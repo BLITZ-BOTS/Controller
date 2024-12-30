@@ -7,7 +7,7 @@ import { Skeleton } from '@/Components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 
 // Backend
-import { fetch_local_plugin_config } from '@/Backend/API/Commands/File System/fetch_local_plugin_data';
+import { fetch_local_plugin_config } from '@/Services/Bot Manager/Plugins/fetch';
 
 // Types
 interface PluginConfig {

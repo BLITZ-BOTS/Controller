@@ -1,5 +1,5 @@
-import CreateBotModal from '../../../Components/Modals/CreateBot';
-import DeleteBotModal from '../../../Components/Modals/DeleteBot';
+import CreateBotModal from '../../Components/Modals/CreateBot';
+import DeleteBotModal from '../../Components/Modals/DeleteBot';
 
 interface ModalRendererProps {
   modal: {

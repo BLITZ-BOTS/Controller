@@ -15,7 +15,7 @@ import Plugin_Config from '@/Pages/Plugin_Config';
 import { UpdateOverlay } from '@/Components/Updater';
 
 // Contexts
-import { ModalProvider } from '@/Backend/Hooks/Modal/ModalContext';
+import { ModalProvider } from '@/hooks/Modal/ModalContext';
 
 function App() {
   const [showUpdateOverlay, setShowUpdateOverlay] = useState<boolean>(false);

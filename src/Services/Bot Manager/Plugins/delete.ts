@@ -1,17 +1,11 @@
 // Packages
 import { remove } from '@tauri-apps/plugin-fs';
-import { join, appLocalDataDir } from '@tauri-apps/api/path';
+
+import { FindPluginPath } from '@/Services/File Manager/Paths/Plugins';
 
 export async function delete_plugin(name: string, plugin: string) {
   try {
-    const pluginFilePath = await join(
-      await appLocalDataDir(),
-      'bots',
-      name,
-      'plugins',
-      plugin
-    );
-
+    const pluginFilePath = await FindPluginPath(name, plugin);
     await remove(pluginFilePath, { recursive: true });
 
     return true;

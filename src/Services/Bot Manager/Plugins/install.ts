@@ -1,6 +1,8 @@
 // Packages
 import { mkdir, writeTextFile } from '@tauri-apps/plugin-fs';
-import { join, appLocalDataDir } from '@tauri-apps/api/path';
+import { join } from '@tauri-apps/api/path';
+
+import { FindPluginPath } from '@/Services/File Manager/Paths/Plugins';
 
 interface PluginContent {
   name: string;
@@ -39,16 +41,8 @@ export async function install_plugin(name: string, plugin: string) {
 
     const contents: PluginContent[] = await contentsResponse.json();
 
-    const pluginDirPath = await join(
-      await appLocalDataDir(),
-      'bots',
-      name,
-      'plugins',
-      plugin
-    );
+    const pluginDirPath = await FindPluginPath(name, pluginName);
 
-    console.log(pluginDirPath);
-    // Make plugin base file
     await mkdir(pluginDirPath, { recursive: true });
     await download(contents, pluginDirPath);
     return true;

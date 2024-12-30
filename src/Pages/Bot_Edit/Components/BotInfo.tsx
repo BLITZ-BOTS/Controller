@@ -10,7 +10,7 @@ import { Skeleton } from '@/Components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 
 // Backend
-import { fetchDiscordBotInfo } from '@/Backend/API/Fetch/Discord/FetchBot';
+import { fetchDiscordBotInfo } from '@/Services/Discord/FetchBot';
 
 export function BotInfo({ token }: { token: string }) {
   const [discordBotData, setDiscordBotData] = useState<DiscordBotData | null>(

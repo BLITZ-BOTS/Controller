@@ -8,7 +8,7 @@ import { Input } from '@/Components/ui/input';
 import { Button } from '@/Components/ui/button';
 import { Label } from '@/Components/ui/label';
 
-import { fetch_local_plugin_config } from '@/Backend/API/Commands/File System/fetch_local_plugin_data';
+import { fetch_local_plugin_config } from '@/Services/Bot Manager/Plugins/fetch';
 
 export function PluginConfigValues({
   name,

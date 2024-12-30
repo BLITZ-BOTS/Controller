@@ -9,12 +9,12 @@ import { Input } from '@/Components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 
 // Backend
-import { InstalledPlugin } from '@/Backend/Types/InstalledPlugin';
-import { delete_plugin } from '@/Backend/API/Commands/File System/delete_plugin';
-import { install_plugin } from '@/Backend/API/Commands/File System/install_plugin';
+import { InstalledPlugin } from '@/Types/InstalledPlugin';
+import { delete_plugin } from '@/Services/Bot Manager/Plugins/delete';
+import { install_plugin } from '@/Services/Bot Manager/Plugins/install';
 
 // Types
-import { PluginSuggestion } from '@/Backend/Types/PluginSuggestion';
+import { PluginSuggestion } from '@/Types/PluginSuggestion';
 interface ApiResponse {
   data: PluginSuggestion[];
 }
