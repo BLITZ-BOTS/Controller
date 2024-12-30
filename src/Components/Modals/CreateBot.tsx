@@ -1,6 +1,7 @@
 // Packages
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import { SiNodedotjs, SiDeno } from '@icons-pack/react-simple-icons';
 
 // Backend Functions
 import { create_bot } from '@/Services/Bot Manager/create';
@@ -92,11 +93,27 @@ const CreateBotModal: React.FC<CreateBotModalProps> = ({
             defaultValue="Node.js"
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select runtime" />
+              <SelectValue>
+                <div className="flex items-center gap-2">
+                  {runtime === 'Node.js' && <SiNodedotjs className="h-4 w-4" />}
+                  {runtime === 'Deno' && <SiDeno className="h-4 w-4" />}
+                  <span>{runtime}</span>
+                </div>
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Node.js">Node.js</SelectItem>
-              <SelectItem value="Deno">Deno</SelectItem>
+              <SelectItem value="Node.js">
+                <div className="flex items-center gap-2">
+                  <SiNodedotjs className="h-4 w-4" />
+                  <span>Node.js</span>
+                </div>
+              </SelectItem>
+              <SelectItem value="Deno">
+                <div className="flex items-center gap-2">
+                  <SiDeno className="h-4 w-4" />
+                  <span>Deno</span>
+                </div>
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -18,8 +18,11 @@ export function PluginConfigValues({
   bot: string;
 }) {
   const [loading, setLoading] = useState(true);
-  const [configValues, setConfigValues] = useState<Record<string, string>>({});
+  const [configValues, setConfigValues] = useState<
+    Record<string, string | string[]>
+  >({});
   const [newConfigKey, setNewConfigKey] = useState('');
+  const [newArrayItem, setNewArrayItem] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -32,7 +35,7 @@ export function PluginConfigValues({
             Object.entries(data.config).reduce(
               (acc, [key, value]) => ({
                 ...acc,
-                [key]: String(value),
+                [key]: Array.isArray(value) ? value : String(value),
               }),
               {}
             )
@@ -85,6 +88,26 @@ export function PluginConfigValues({
     setNewConfigKey('');
   };
 
+  const handleAddArrayItem = (key: string) => {
+    if (!newArrayItem.trim()) {
+      toast({
+        title: 'Error',
+        description: 'Please enter a value for the new item',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setConfigValues((prev) => {
+      const updatedConfig = { ...prev };
+      if (Array.isArray(updatedConfig[key])) {
+        updatedConfig[key] = [...updatedConfig[key], newArrayItem];
+      }
+      return updatedConfig;
+    });
+    setNewArrayItem('');
+  };
+
   if (loading) {
     return (
       <div className="space-y-4">
@@ -124,22 +147,68 @@ export function PluginConfigValues({
 
       {/* Existing Config Values */}
       <div className="space-y-4">
-        {Object.entries(configValues).map(([key, value]) => (
-          <motion.div
-            key={key}
-            className="space-y-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <Label htmlFor={key}>{key}</Label>
-            <Input
-              id={key}
-              value={value}
-              onChange={(e) => handleValueChange(key, e.target.value)}
-              placeholder={`Enter value for ${key}`}
-            />
-          </motion.div>
-        ))}
+        {Object.entries(configValues).map(([key, value]) => {
+          if (Array.isArray(value)) {
+            return (
+              <motion.div
+                key={key}
+                className="space-y-2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <Label>{key}</Label>
+                <div className="space-y-2">
+                  {value.map((item, index) => (
+                    <Input
+                      key={`${key}-${index}`}
+                      value={item}
+                      onChange={(e) => {
+                        const updatedValue = [...value];
+                        updatedValue[index] = e.target.value;
+                        setConfigValues((prev) => ({
+                          ...prev,
+                          [key]: updatedValue,
+                        }));
+                      }}
+                      placeholder={`Enter value for ${key} item ${index + 1}`}
+                    />
+                  ))}
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      placeholder="New item"
+                      value={newArrayItem}
+                      onChange={(e) => setNewArrayItem(e.target.value)}
+                    />
+                    <Button
+                      onClick={() => handleAddArrayItem(key)}
+                      className="flex items-center space-x-2"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Add Item</span>
+                    </Button>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          } else {
+            return (
+              <motion.div
+                key={key}
+                className="space-y-2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <Label htmlFor={key}>{key}</Label>
+                <Input
+                  id={key}
+                  value={value}
+                  onChange={(e) => handleValueChange(key, e.target.value)}
+                  placeholder={`Enter value for ${key}`}
+                />
+              </motion.div>
+            );
+          }
+        })}
 
         {Object.keys(configValues).length === 0 && (
           <div className="text-center text-gray-500 py-4">

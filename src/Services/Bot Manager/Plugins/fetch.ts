@@ -30,7 +30,7 @@ export async function fetch_local_plugin_config(
     const configContent = await readTextFile(configPath);
     const parsedConfig = yaml.load(configContent) as PluginConfig;
 
-    // Return the parsed config with optional config field
+    console.log('Parsed config:', parsedConfig.config);
     return {
       name: parsedConfig.name || '',
       description: parsedConfig.description || '',
