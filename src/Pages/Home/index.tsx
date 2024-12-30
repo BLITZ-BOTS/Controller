@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Backend Functions
-import { fetch_user_bots } from '@/Backend/API/Commands/File System/fetch_user_bots';
+import { fetch_user_bots } from '@/Services/Bot Manager/fetch';
 
 // Types
-import { Bot } from '@/Backend/Types/Responses/Bot';
+import { Bot } from '@/Types/Responses/Bot';
 
 // Components
 import BotCard from './Components/BotCard';
-import { useModal } from '@/Backend/Hooks/Modal/ModalContext';
+import { useModal } from '@/hooks/Modal/ModalContext';
 import { Button } from '@/Components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 

@@ -10,7 +10,7 @@ import { Button } from '@/Components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 
 // Backend
-import { set_token } from '@/Backend/API/Commands/File System/set_token';
+import { set_token } from '@/Services/Bot Manager/token';
 
 interface TokenInputProps {
   token: string;

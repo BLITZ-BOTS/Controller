@@ -15,13 +15,13 @@ import { BotBreadcrum } from './Components/BreadCrum';
 import { useToast } from '@/hooks/use-toast';
 
 // Backend Functions
-import { fetch_local_bot_data } from '@/Backend/API/Commands/File System/fetch_local_bot_data';
+import { fetch_local_bot_data } from '@/Services/Bot Manager/fetch';
 
 // Types
-import { LocalBotData } from '@/Backend/Types/LocalBotData';
+import { LocalBotData } from '@/Types/LocalBotData';
 
 // Intent Mapping
-import { linkMap } from '@/Backend/Types/Intents';
+import { linkMap } from '@/Types/Intents';
 
 const Edit = () => {
   // Hooks

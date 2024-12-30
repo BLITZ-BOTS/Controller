@@ -1,8 +1,10 @@
 import { mkdir, writeTextFile } from '@tauri-apps/plugin-fs';
-import { appLocalDataDir, join } from '@tauri-apps/api/path';
+import { join } from '@tauri-apps/api/path';
+
+import { AppPath } from '@/Services/File Manager/Paths/AppPath';
 
 export async function create_bot(token: string, name: string, runtime: string) {
-  const appDirectory = await appLocalDataDir();
+  const appDirectory = await AppPath();
 
   console.log(runtime);
 

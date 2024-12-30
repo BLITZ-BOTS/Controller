@@ -1,16 +1,13 @@
 // Packages
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
-import { join, appLocalDataDir } from '@tauri-apps/api/path';
+import { join } from '@tauri-apps/api/path';
+
+import { FindBotPath } from '@/Services/File Manager/Paths/Bots';
 
 // Function to toggle an intent in the intents.ts file
 export async function toggle_intent(name: string, intent: string) {
   try {
-    const intentsFilePath = await join(
-      await appLocalDataDir(),
-      'bots',
-      name,
-      'intents.ts'
-    );
+    const intentsFilePath = await join(await FindBotPath(name), 'intents.ts');
 
     const fileContent = await readTextFile(intentsFilePath);
 

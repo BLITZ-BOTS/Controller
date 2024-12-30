@@ -2,10 +2,10 @@
 import { X } from 'lucide-react';
 
 // Types
-import { Bot } from '@/Backend/Types/Responses/Bot';
+import { Bot } from '@/Types/Responses/Bot';
 
 // Backend Functions
-import { delete_bot } from '@/Backend/API/Commands/File System/delete_bot';
+import { delete_bot } from '@/Services/Bot Manager/delete';
 
 // Components
 import { Button } from '@/Components/ui/button';

@@ -2,7 +2,7 @@
 import { Pencil, Trash2 } from 'lucide-react';
 
 // Types
-import { Bot } from '../../../Backend/Types/Responses/Bot';
+import { Bot } from '@/Types/Responses/Bot';
 
 // Components
 import { Button } from '@/Components/ui/button';

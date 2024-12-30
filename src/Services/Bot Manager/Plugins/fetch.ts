@@ -1,7 +1,9 @@
 // Packages
 import { exists, readTextFile } from '@tauri-apps/plugin-fs';
-import { appLocalDataDir, join } from '@tauri-apps/api/path';
+import { join } from '@tauri-apps/api/path';
 import * as yaml from 'js-yaml';
+
+import { FindPluginPath } from '@/Services/File Manager/Paths/Plugins';
 
 interface PluginConfig {
   name: string;
@@ -15,9 +17,7 @@ export async function fetch_local_plugin_config(
   name: string
 ): Promise<PluginConfig | null> {
   try {
-    // Get the apps directory and construct the path to the plugin config
-    const appsDirectory = await appLocalDataDir();
-    const pluginPath = await join(appsDirectory, 'bots', bot, 'plugins', name);
+    const pluginPath = await FindPluginPath(bot, name);
     const configPath = await join(pluginPath, 'blitz.config.yaml');
 
     // Check if the config file exists

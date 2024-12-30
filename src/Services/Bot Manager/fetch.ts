@@ -1,20 +1,23 @@
 // Packages
 import { exists, readDir, readTextFile } from '@tauri-apps/plugin-fs';
-import { appLocalDataDir, join } from '@tauri-apps/api/path';
+import { join } from '@tauri-apps/api/path';
 import * as yaml from 'js-yaml';
 
 // Functions
+import { FindBotPath, BotPath } from '@/Services/File Manager/Paths/Bots';
+
+import { create_bots_directory } from '@/Services/File Manager/Paths/Bots/create';
 
 // Types
-import { LocalBotData } from '@/Backend/Types/LocalBotData';
+import { LocalBotData } from '@/Types/LocalBotData';
 import {
   InstalledPlugin,
   InstalledPluginMetadata,
-} from '@/Backend/Types/InstalledPlugin';
+} from '@/Types/InstalledPlugin';
+import { Bot } from '@/Types/Responses/Bot';
 
 export async function fetch_local_bot_data(name: string) {
-  const appsDirectory = await appLocalDataDir();
-  const botFolderPath = await join(appsDirectory, 'bots', name);
+  const botFolderPath = await FindBotPath(name);
 
   const botFolderExists = await exists(botFolderPath);
   if (!botFolderExists) return false;
@@ -92,4 +95,37 @@ export async function fetch_local_bot_data(name: string) {
   bot_data.installed_plugins = bot_plugins;
 
   return bot_data;
+}
+
+export async function fetch_user_bots() {
+  try {
+    // Read the directory entries in the "bots" folder
+    const entries = await readDir(await BotPath());
+
+    // Initialize the bots array with the correct type
+    const bots: Bot[] = [];
+
+    for (const dir of entries) {
+      if (dir.isDirectory && dir.name) {
+        const locationPath = await FindBotPath(dir.name);
+        bots.push({
+          name: dir.name,
+          locationPath,
+        });
+      }
+    }
+
+    return bots;
+  } catch (error) {
+    console.error('Error fetching user bots:', error);
+
+    // Attempt to create the "bots" directory and return an empty array
+    try {
+      await create_bots_directory();
+      return [];
+    } catch (createError) {
+      console.error('Error creating bots directory:', createError);
+      throw createError;
+    }
+  }
 }

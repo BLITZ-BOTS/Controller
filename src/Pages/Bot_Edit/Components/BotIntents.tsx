@@ -6,10 +6,10 @@ import { Switch } from '@/Components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 
 // Types
-import { linkMap } from '@/Backend/Types/Intents';
+import { linkMap } from '@/Types/Intents';
 
 // Backend
-import { toggle_intent } from '@/Backend/API/Commands/File System/toggle_intent';
+import { toggle_intent } from '@/Services/Bot Manager/intents';
 
 interface BotIntentsProps {
   name: string;
